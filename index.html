@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Révisions CM2 – Période 1 🏆</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4a7cff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Révisions CM2">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<style>
+  :root{--primary:#4a7cff;--success:#2ecc71;--error:#e74c3c;--warn:#e67e22;--bg:#f5f7fb;--text:#2c3e50;--muted:#7f8c8d;--border:#e1e8ed;--gold:#ffd700}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#eef2ff,#f5f7fb);color:var(--text);min-height:100vh}
+
+  .onboarding-overlay{position:fixed;inset:0;background:linear-gradient(135deg,#4a7cff,#6c5ce7);display:flex;align-items:center;justify-content:center;z-index:3000;padding:20px;animation:fadeIn .4s}
+  .onboarding-overlay.hidden{display:none}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .onboarding-card{background:#fff;border-radius:24px;padding:40px 35px;max-width:460px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:cardIn .6s cubic-bezier(0.68,-0.55,0.265,1.55)}
+  @keyframes cardIn{from{transform:scale(0.7) translateY(50px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+  .onboarding-emoji{font-size:5rem;line-height:1;margin-bottom:15px;animation:emojiBounce 2s infinite}
+  @keyframes emojiBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .onboarding-card h1{color:var(--primary);font-size:1.8rem;margin:0 0 12px;font-weight:900}
+  .onboarding-card p{color:#555;margin:0 0 24px;font-size:.95rem;line-height:1.5}
+  #firstNameInput{width:100%;padding:16px 20px;border:3px solid #e1e8ed;border-radius:14px;font-size:1.1rem;font-family:inherit;text-align:center;transition:border .2s;margin-bottom:16px;background:#f8f9fa}
+  #firstNameInput:focus{outline:none;border-color:var(--primary);background:#fff}
+  #startBtn{width:100%;padding:16px 24px;background:linear-gradient(135deg,#4a7cff,#6c5ce7);color:#fff;border:none;border-radius:14px;font-size:1.1rem;font-weight:800;cursor:pointer;transition:transform .2s;font-family:inherit;box-shadow:0 4px 15px rgba(74,124,255,.4)}
+  #startBtn:hover{transform:scale(1.03)}
+  .onboarding-hint{color:#95a5a6;font-size:.8rem;margin:20px 0 0;padding-top:20px;border-top:1px solid #f0f0f0}
+
+  header{background:linear-gradient(135deg,var(--primary),#6c5ce7);color:#fff;padding:24px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+  header h1{margin:0 0 8px;font-size:1.7rem}
+  header p{margin:0 0 6px;opacity:.95;font-size:1rem;font-weight:600}
+  .date-info{font-size:.88rem;opacity:.95;padding:6px 12px;background:rgba(255,255,255,.15);border-radius:20px;display:inline-block;margin-top:6px}
+  .date-info strong{font-weight:800}
+
+  .progress-container{max-width:900px;margin:20px auto 10px;padding:0 20px}
+  .progress-bar{height:12px;background:#e0e0e0;border-radius:6px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--success),#27ae60);width:0;transition:width .5s}
+  .progress-label{text-align:center;font-size:.85rem;color:var(--muted);margin-top:6px}
+
+  .rewards-bar{max-width:900px;margin:15px auto;padding:14px 18px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.06);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .streak-display{display:flex;align-items:center;gap:10px;padding:8px 14px;background:linear-gradient(135deg,#ff6b35,#ffa500);color:#fff;border-radius:12px;min-width:150px;position:relative}
+  .streak-fire{font-size:1.8rem;animation:flicker 1s infinite alternate;line-height:1}
+  @keyframes flicker{from{transform:scale(1);opacity:1}to{transform:scale(1.12);opacity:.85}}
+  .streak-number{font-size:1.5rem;font-weight:800;line-height:1}
+  .streak-label{font-size:.72rem;opacity:.95}
+  .best-streak{margin-left:auto;font-size:.72rem;padding:3px 8px;background:rgba(0,0,0,.22);border-radius:6px;white-space:nowrap}
+  .badges-row{display:flex;gap:6px;flex:1;justify-content:center;flex-wrap:wrap;min-width:280px}
+  .badge-slot{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;background:#f0f0f0;filter:grayscale(1);opacity:.35;transition:all .4s;position:relative;cursor:default}
+  .badge-slot.earned{filter:none;opacity:1;background:linear-gradient(135deg,#ffd700,#ffec80);box-shadow:0 2px 10px rgba(255,215,0,.6);animation:badgePop .6s}
+  .badge-slot.earned:hover::after{content:attr(data-label);position:absolute;bottom:-32px;left:50%;transform:translateX(-50%);background:#2c3e50;color:#fff;padding:4px 8px;border-radius:6px;font-size:.72rem;white-space:nowrap;z-index:10}
+  @keyframes badgePop{0%{transform:scale(.3);opacity:0}50%{transform:scale(1.25);opacity:1}100%{transform:scale(1)}}
+  .trophy-display{display:flex;flex-direction:column;align-items:center;padding:8px 14px;border-radius:12px;background:#f4f4f4;opacity:.4;transition:all .4s;min-width:70px}
+  .trophy-display.won{opacity:1;background:linear-gradient(135deg,#ffd700,#ffec80);box-shadow:0 0 20px rgba(255,215,0,.7);animation:trophyGlow 1.5s infinite alternate}
+  @keyframes trophyGlow{from{box-shadow:0 0 15px rgba(255,215,0,.5)}to{box-shadow:0 0 30px rgba(255,215,0,1)}}
+  .trophy-icon{font-size:1.8rem;line-height:1}
+  .trophy-display.won .trophy-icon{animation:trophyBounce .8s infinite alternate}
+  @keyframes trophyBounce{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-5px) rotate(5deg)}}
+  .trophy-label{font-size:.68rem;font-weight:700;color:#7f6000;margin-top:2px}
+
+  nav.day-nav{max-width:900px;margin:15px auto;padding:0 20px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .day-btn{padding:9px 13px;border:2px solid var(--border);background:#fff;border-radius:10px;cursor:pointer;font-weight:600;font-size:.85rem;transition:all .2s;position:relative}
+  .day-btn:hover{border-color:var(--primary);transform:translateY(-1px)}
+  .day-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .day-btn.done{background:var(--success);color:#fff;border-color:var(--success)}
+  .day-btn.done::before{content:'⭐';position:absolute;top:-6px;right:-6px;font-size:.9rem}
+  .day-btn.locked{background:#f0f0f0;color:#95a5a6;border-color:#e0e0e0;cursor:not-allowed}
+  .day-btn.locked:hover{transform:none;border-color:#e0e0e0}
+
+  main{max-width:900px;margin:0 auto;padding:20px}
+  .jour-panel{display:none}
+  .jour-panel.active{display:block}
+  .jour-header{background:#fff;border-radius:14px;padding:20px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:5px solid var(--primary)}
+  .jour-header h2{margin:0 0 6px;font-size:1.35rem}
+  .jour-header .meta{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
+  .echauffement{background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.9rem}
+  .exercice{background:#fff;border-radius:14px;padding:20px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:5px solid var(--muted)}
+  .exercice.francais{border-left-color:#3498db}
+  .exercice.maths{border-left-color:#e67e22}
+  .exercice.anglais{border-left-color:#9b59b6}
+  .exercice-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:12px;flex-wrap:wrap}
+  .exercice-header h3{margin:0;font-size:1.05rem}
+  .badge{font-size:.72rem;padding:3px 8px;border-radius:20px;font-weight:600;white-space:nowrap}
+  .badge.duree{background:#f0f0f0;color:#555}
+  .badge.matiere{background:#eef2ff;color:#3867d6}
+  .badge.note{background:#fff3e0;color:#b45309}
+  .consigne{font-style:italic;color:#555;margin-bottom:16px;padding:10px;background:#f8f9fa;border-radius:8px;font-size:.9rem}
+  .item{margin-bottom:14px;padding:10px;border-radius:8px;transition:background .2s}
+  .item.correct{background:#e8f8ef}
+  .item.incorrect{background:#fdecea}
+  .item .prompt{margin-bottom:8px;font-weight:500;font-size:.95rem;white-space:pre-wrap}
+  .field-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px}
+  .field-row label{font-size:.85rem;color:var(--muted);min-width:60px;font-weight:600}
+  input[type=text],textarea,select{padding:8px 10px;border:2px solid var(--border);border-radius:8px;font-family:inherit;font-size:.92rem;transition:border .2s;background:#fff}
+  input[type=text]:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary)}
+  input[type=text].correct{border-color:var(--success);background:#f0fdf4}
+  input[type=text].incorrect{border-color:var(--error);background:#fef2f2}
+  input[type=text]{min-width:160px}
+  textarea{width:100%;min-height:70px;resize:vertical}
+  .radio-group{display:flex;flex-direction:column;gap:6px}
+  .radio-option{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s}
+  .radio-option:hover{background:#f0f4ff}
+  .radio-option.correct{background:#e8f8ef;border-color:var(--success)}
+  .radio-option.incorrect{background:#fdecea;border-color:var(--error)}
+  .feedback{margin-top:8px;padding:8px 12px;border-radius:8px;font-size:.88rem;display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:#e8f8ef;color:#186a3b}
+  .feedback.ko{background:#fdecea;color:#922b21}
+  .feedback.info{background:#e3f2fd;color:#1565c0}
+  .reponse-item{font-size:.85rem;color:#555;margin-top:4px;font-style:italic}
+  .exercice-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  button.action{padding:10px 16px;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:.88rem;transition:all .2s;font-family:inherit}
+  button.primary{background:var(--primary);color:#fff}
+  button.primary:hover{background:#3867d6}
+  button.secondary{background:#ecf0f1;color:var(--text)}
+  button.secondary:hover{background:#d5dbdb}
+  button.danger{background:#fdecea;color:#c0392b;border:1px solid #f5b7b1}
+  button.danger:hover{background:#f9d4d1}
+  .explication{margin-top:12px;padding:12px;background:#f0f9ff;border-left:4px solid #3b82f6;border-radius:6px;font-size:.88rem;display:none}
+  .explication.show{display:block}
+  .explication strong{color:#1e40af}
+  .self-eval{margin-top:20px;padding:16px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);text-align:center}
+  .self-eval h4{margin:0 0 12px;font-size:1rem}
+  .emoji-btns{display:flex;justify-content:center;gap:12px;margin-top:6px}
+  .emoji-btn{font-size:1.8rem;background:#f5f7fb;border:2px solid transparent;border-radius:50%;width:54px;height:54px;cursor:pointer;transition:all .2s}
+  .emoji-btn:hover{transform:scale(1.1)}
+  .emoji-btn.selected{border-color:var(--primary);background:#e0e7ff}
+
+  .locked-panel{background:#fff;border-radius:14px;padding:60px 20px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:5px solid #95a5a6}
+  .lock-icon{font-size:5rem;margin-bottom:20px;opacity:.5;animation:lockShake 2s infinite}
+  @keyframes lockShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}
+  .locked-panel h3{color:#7f8c8d;margin:0 0 12px;font-size:1.2rem}
+  .locked-panel p{color:#95a5a6;margin:8px 0;line-height:1.5}
+  .locked-panel strong{color:var(--primary)}
+
+  .suivi-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05);font-size:.88rem;margin-bottom:20px}
+  .suivi-table th,.suivi-table td{padding:10px 8px;text-align:center;border-bottom:1px solid var(--border)}
+  .suivi-table th{background:#eef2ff;font-weight:700;font-size:.8rem}
+  .suivi-table td.jour{text-align:left;font-weight:600}
+  .suivi-table td.note{font-weight:700;color:#b45309}
+  .suivi-table tfoot td{background:#f8f9fa;font-weight:700}
+  .bilan-box{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+  .bilan-box h3{margin-top:0;color:var(--primary)}
+  .bilan-box label{display:block;font-weight:600;margin:14px 0 6px;font-size:.92rem}
+  .moyenne-display{font-size:3rem;font-weight:800;color:var(--primary);text-align:center;line-height:1;margin:10px 0}
+  .moyenne-detail{text-align:center;color:var(--muted);font-size:.9rem}
+  #radar-container{text-align:center;padding:10px 0}
+  #radar-container .radar-empty{color:var(--muted);font-style:italic;padding:20px;font-size:.9rem}
+  details{margin-bottom:20px;background:#fff;border-radius:12px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+  details summary{cursor:pointer;font-weight:700;color:var(--primary);padding:6px 0;font-size:1rem}
+  footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:.8rem}
+  .reset-zone{text-align:center;margin:20px auto;padding:12px;background:#fff5f5;border-radius:10px;border:1px dashed #ffb3b3;max-width:900px}
+  .reset-zone p{margin:0 0 8px;font-size:.85rem;color:#c0392b}
+
+  .confetti{position:fixed;top:-20px;pointer-events:none;z-index:2000;border-radius:2px;animation:confettiFall linear forwards}
+  @keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+  .badge-toast{position:fixed;bottom:20px;right:20px;background:linear-gradient(135deg,#fff,#f8f9fa);border:3px solid var(--gold);border-radius:16px;padding:16px 22px;box-shadow:0 10px 40px rgba(255,215,0,.6);display:flex;gap:16px;align-items:center;z-index:1500;animation:toastIn .6s cubic-bezier(0.68,-0.55,0.265,1.55);max-width:340px}
+  @keyframes toastIn{from{transform:translateX(400px);opacity:0}to{transform:translateX(0);opacity:1}}
+  @keyframes toastOut{to{transform:translateX(400px);opacity:0}}
+  .badge-toast.out{animation:toastOut .35s forwards}
+  .toast-emoji{font-size:3rem;line-height:1;animation:toastSpin .8s ease}
+  @keyframes toastSpin{from{transform:rotate(-360deg) scale(0)}to{transform:rotate(0) scale(1)}}
+  .toast-title{font-size:.82rem;font-weight:800;color:#b8860b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+  .toast-name{font-size:1.1rem;font-weight:800;color:#2c3e50;margin-bottom:2px}
+  .toast-desc{font-size:.78rem;color:#7f8c8d}
+  .trophy-modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:1600;animation:fadeIn .4s;padding:20px}
+  .trophy-content{background:linear-gradient(135deg,#fff8e1,#ffe082);border:6px solid var(--gold);border-radius:24px;padding:40px 50px;text-align:center;max-width:480px;animation:trophyPop .7s cubic-bezier(0.68,-0.55,0.265,1.55);box-shadow:0 0 60px rgba(255,215,0,.8)}
+  @keyframes trophyPop{from{transform:scale(0) rotate(-180deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+  .trophy-emoji{font-size:7rem;line-height:1;margin-bottom:10px;filter:drop-shadow(0 10px 20px rgba(255,215,0,.7));animation:trophyHero 1s infinite alternate}
+  @keyframes trophyHero{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-8px) rotate(3deg)}}
+  .trophy-content h2{color:#b8860b;font-size:1.8rem;margin:0 0 8px;text-shadow:2px 2px 4px rgba(0,0,0,.15);font-weight:900}
+  .trophy-content h3{color:#7f6000;font-size:1.15rem;margin:0 0 15px}
+  .trophy-content p{color:#5d4e1f;margin:0 0 20px;font-size:.95rem;font-weight:600}
+  .trophy-stars{font-size:2.2rem;margin:15px 0;animation:starsPulse 1s infinite alternate}
+  @keyframes starsPulse{from{transform:scale(1)}to{transform:scale(1.15)}}
+  .trophy-content button{background:linear-gradient(135deg,#ffd700,#ffa500);color:#5d4e1f;border:none;padding:14px 36px;border-radius:30px;font-size:1.05rem;font-weight:800;cursor:pointer;transition:transform .2s;box-shadow:0 4px 15px rgba(255,165,0,.5)}
+  .trophy-content button:hover{transform:scale(1.08)}
+  @media(max-width:600px){header h1{font-size:1.3rem}.jour-header h2{font-size:1.15rem}input[type=text]{min-width:130px;width:100%}.field-row{flex-direction:column;align-items:stretch}.field-row label{min-width:auto}.suivi-table{font-size:.72rem}.suivi-table th,.suivi-table td{padding:6px 4px}.badge-slot{width:36px;height:36px;font-size:1.2rem}.streak-display{min-width:auto}.badges-row{min-width:auto}.badge-toast{left:10px;right:10px;bottom:10px;max-width:none}.onboarding-card{padding:30px 20px}.onboarding-emoji{font-size:3.5rem}.onboarding-card h1{font-size:1.5rem}}
+</style>
+</head>
+
+<body>
+
+<div class="onboarding-overlay" id="onboardingOverlay">
+  <div class="onboarding-card">
+    <div class="onboarding-emoji">🎒</div>
+    <h1>Bienvenue !</h1>
+    <p>Prépare-toi pour <strong>10 jours de révisions</strong>.<br>Chaque jour se débloque automatiquement.</p>
+    <input type="text" id="firstNameInput" placeholder="Ton prénom..." maxlength="20" autocomplete="off">
+    <button id="startBtn" onclick="startAdventure()">🚀 Démarrer l'aventure</button>
+    <p class="onboarding-hint">💡 Tu auras 10 jours pour compléter les 10 journées.<br>Le Jour 2 se débloque demain, le Jour 3 après-demain, etc.</p>
+  </div>
+</div>
+
+<header>
+  <h1>📚 Révisions CM2 – Période 1 🏆</h1>
+  <p id="greeting">Bienvenue !</p>
+  <div class="date-info" id="dateInfo"></div>
+</header>
+
+<div class="progress-container">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel">0 exercice validé sur 0</div>
+</div>
+
+<div class="rewards-bar" id="rewardsBar">
+  <div class="streak-display">
+    <span class="streak-fire">🔥</span>
+    <div>
+      <div class="streak-number" id="streakNumber">0</div>
+      <div class="streak-label">jours d'affilée</div>
+    </div>
+    <span class="best-streak">🥇 Record : <span id="bestStreak">0</span></span>
+  </div>
+  <div class="badges-row" id="badgesRow"></div>
+  <div class="trophy-display" id="trophyDisplay">
+    <div class="trophy-icon">🏆</div>
+    <div class="trophy-label">Trophée</div>
+  </div>
+</div>
+
+<nav class="day-nav" id="dayNav"></nav>
+<main id="main"></main>
+
+<div class="reset-zone">
+  <p>⚠️ Efface TOUTES les réponses, notes, badges, séries, ton prénom et ta date de démarrage.</p>
+  <button class="action danger" onclick="resetAll()">🔄 Tout réinitialiser</button>
+</div>
+
+<footer>Page interactive autonome · Sauvegarde automatique · Aucune connexion requise</footer>
+
+<button id="installBtn" style="display:none; position:fixed; bottom:20px; right:20px; z-index:1000; padding:14px 22px; background:linear-gradient(135deg,#4a7cff,#6c5ce7); color:#fff; border:none; border-radius:50px; font-weight:700; font-size:.95rem; cursor:pointer; box-shadow:0 6px 20px rgba(74,124,255,.5); font-family:inherit;">📲 Installer l'app</button>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW:', err));
+  });
+}
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.getElementById('installBtn');
+  if (btn) btn.style.display = 'inline-block';
+});
+document.getElementById('installBtn')?.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('installBtn').style.display = 'none';
+});
+
+const CODE_CORRECTION = '2026';
+const BADGES = [
+  { emoji: '🌱', name: 'Démarrage',           desc: 'Jour 1 – Redémarrage en douceur' },
+  { emoji: '📖', name: 'Les bases',           desc: 'Jour 2 – Les bases' },
+  { emoji: '🧱', name: 'Consolidation',       desc: 'Jour 3 – Consolidation' },
+  { emoji: '💪', name: 'Entraînement',        desc: 'Jour 4 – Entraînement' },
+  { emoji: '⚡', name: 'Mini-bilan',           desc: 'Jour 5 – Mini-bilan' },
+  { emoji: '🔍', name: 'Nouveaux angles',     desc: 'Jour 6 – Nouveaux angles' },
+  { emoji: '🎯', name: 'Réinvestissement',    desc: 'Jour 7 – Réinvestissement' },
+  { emoji: '🚀', name: 'Approfondissement',   desc: 'Jour 8 – Approfondissement' },
+  { emoji: '🔥', name: 'Ciblage',             desc: 'Jour 9 – Ciblage des difficultés' },
+  { emoji: '👑', name: 'Évaluation finale',   desc: 'Jour 10 – Évaluation finale' }
+];
+const COMPETENCES_MAP = {
+  j1fr1:'grammaire',j1fr2:'conjugaison',j1fr3:'orthographe',j1ma1:'numeration',j1ma2:'numeration',j1ma3:'problemes',j1an1:'anglais',j1an2:'anglais',
+  j2fr1:'grammaire',j2fr2:'conjugaison',j2fr3:'conjugaison',j2ma1:'numeration',j2ma2:'calcul',j2ma3:'problemes',j2an1:'anglais',j2an2:'anglais',
+  j3fr1:'orthographe',j3fr2:'orthographe',j3fr3:'vocabulaire',j3ma1:'numeration',j3ma2:'problemes',j3ma3:'geometrie',j3an1:'anglais',j3an2:'anglais',
+  j4fr1:'orthographe',j4fr2:'grammaire',j4fr3:'expression',j4ma1:'calcul',j4ma2:'problemes',j4ma3:'calcul',j4an1:'anglais',j4an2:'anglais',
+  j5fr1:'grammaire',j5ma1:'numeration',j5an1:'anglais',
+  j6fr1:'vocabulaire',j6fr2:'grammaire',j6fr3:'conjugaison',j6ma1:'geometrie',j6ma2:'geometrie',j6ma3:'geometrie',j6an1:'anglais',j6an2:'anglais',
+  j7fr1:'lecture',j7fr2:'grammaire',j7fr3:'expression',j7ma1:'problemes',j7ma2:'geometrie',j7ma3:'calcul',j7an1:'anglais',j7an2:'anglais',
+  j8fr1:'orthographe',j8fr2:'orthographe',j8fr3:'conjugaison',j8ma1:'problemes',j8ma2:'calcul',j8ma3:'geometrie',j8an1:'anglais',j8an2:'anglais',
+  j10fr1:'grammaire',j10ma1:'numeration',j10an1:'anglais'
+};
+const COMPETENCE_LABELS = {conjugaison:'Conjugaison',orthographe:'Orthographe',grammaire:'Grammaire',vocabulaire:'Vocabulaire',lecture:'Compréhension',expression:'Expression',numeration:'Numération',calcul:'Calcul',problemes:'Problèmes',geometrie:'Géométrie',anglais:'Anglais'};
+
+function norm(s){if(s===undefined||s===null)return '';return s.toString().toLowerCase().trim().replace(/\s+/g,' ').replace(/,/g,'.').replace(/[.!?;]+$/,'').replace(/^[«"']+|[»"']+$/g,'').trim();}
+function matchAnswer(user,accepted){const u=norm(user);if(!u)return false;return accepted.some(a=>norm(a)===u);}
+function escapeHtml(s){if(s===undefined||s===null)return '';return s.toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/\n/g,'<br>');}
+function formatDateFR(date){
+  const days = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+  const months = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  return days[date.getDay()] + ' ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+}
+
+const DATA = [
+{num:1,titre:"Redémarrage en douceur",duree:"45 min",echauffement:"Calcul mental : 7 × 8 ; 45 + 27 ; 100 − 36 ; 6 × 9 ; 72 ÷ 8.",exercices:[
+{id:'j1fr1',matiere:'francais',titre:'Sujet et verbe',duree:'5 min',consigne:"Pour chaque phrase, indique le sujet et le verbe.",items:[
+{prompt:'Les élèves de CM2 lisent un roman.',type:'fields',fields:[{label:'Sujet',answers:['les élèves de cm2']},{label:'Verbe',answers:['lisent']}],reponse:'Sujet : les élèves de CM2 — Verbe : lisent'},
+{prompt:'Le chat dort sur le canapé.',type:'fields',fields:[{label:'Sujet',answers:['le chat','chat']},{label:'Verbe',answers:['dort']}],reponse:'Sujet : le chat — Verbe : dort'},
+{prompt:'Ma sœur et moi préparons un gâteau.',type:'fields',fields:[{label:'Sujet',answers:['ma sœur et moi']},{label:'Verbe',answers:['préparons']}],reponse:'Sujet : ma sœur et moi — Verbe : préparons'},
+{prompt:'Le vent souffle fort ce matin.',type:'fields',fields:[{label:'Sujet',answers:['le vent','vent']},{label:'Verbe',answers:['souffle']}],reponse:'Sujet : le vent — Verbe : souffle'},
+{prompt:'Les enfants jouent dans la cour.',type:'fields',fields:[{label:'Sujet',answers:['les enfants','enfants']},{label:'Verbe',answers:['jouent']}],reponse:'Sujet : les enfants — Verbe : jouent'}],
+explication:"Le sujet fait l'action, le verbe la décrit. Pose la question : « Qui est-ce qui… ? »"},
+{id:'j1fr2',matiere:'francais',titre:'Présent de l\'indicatif',duree:'5 min',consigne:"Conjugue au présent.",items:[
+{prompt:'Je (chanter) une chanson.',type:'text',answers:['chante']},{prompt:'Tu (être) très attentif.',type:'text',answers:['es']},
+{prompt:'Nous (avoir) un nouveau livre.',type:'text',answers:['avons']},{prompt:'Elles (jouer) au ballon.',type:'text',answers:['jouent']},
+{prompt:'Il (parler) à son ami.',type:'text',answers:['parle']},{prompt:'Vous (être) prêts.',type:'text',answers:['êtes']}],
+explication:"être et avoir sont irréguliers. Verbes en -ER : -e, -es, -e, -ons, -ez, -ent."},
+{id:'j1fr3',matiere:'francais',titre:'Homophones a / à',duree:'5 min',consigne:"Complète avec a ou à.",items:[
+{prompt:'Il __ un beau vélo.',type:'radio',options:['a','à'],correctIndex:0},{prompt:'Je vais __ l\'école.',type:'radio',options:['a','à'],correctIndex:1},
+{prompt:'Elle __ oublié son cartable.',type:'radio',options:['a','à'],correctIndex:0},{prompt:'Nous sommes __ la maison.',type:'radio',options:['a','à'],correctIndex:1},
+{prompt:'Mon frère __ dix ans.',type:'radio',options:['a','à'],correctIndex:0}],
+explication:"« a » = verbe avoir (« avait »). « à » = préposition."},
+{id:'j1ma1',matiere:'maths',titre:'Fractions et décimaux',duree:'5 min',consigne:"Écris chaque fraction en décimal.",items:[
+{prompt:'3/10 = ?',type:'text',answers:['0.3','0,3']},{prompt:'25/100 = ?',type:'text',answers:['0.25','0,25']},
+{prompt:'7/1000 = ?',type:'text',answers:['0.007','0,007']},{prompt:'128/100 = ?',type:'text',answers:['1.28','1,28']},
+{prompt:'4/10 = ?',type:'text',answers:['0.4','0,4']}],
+explication:"Nombre de zéros du dénominateur = chiffres après la virgule."},
+{id:'j1ma2',matiere:'maths',titre:'Comparer et ranger',duree:'5 min',consigne:"Compare, puis range.",items:[
+{prompt:'3,45 __ 3,5',type:'radio',options:['<','>','='],correctIndex:0},{prompt:'12,07 __ 12,007',type:'radio',options:['<','>','='],correctIndex:1},
+{prompt:'0,8 __ 0,80',type:'radio',options:['<','>','='],correctIndex:2},
+{prompt:'Ordre croissant (séparés par ;) : 0,5 ; 0,45 ; 0,405 ; 0,54',type:'text',answers:['0.405;0.45;0.5;0.54','0.405; 0.45; 0.5; 0.54']}],
+explication:"Compare parties entières puis décimales. 0,8 = 0,80."},
+{id:'j1ma3',matiere:'maths',titre:'Problèmes',duree:'5 min',consigne:"Résous (en euros).",items:[
+{prompt:'Un livre coûte 12,50 €. J\'en achète 3. Combien je paie ?',type:'text',answers:['37.5','37,50','37,5','37.50']},
+{prompt:'J\'ai 50 €. Livre 12,50 € + stylo 3,75 €. Reste ?',type:'text',answers:['33.75','33,75']}],
+explication:"12,50×3 = 37,50. 50−(12,50+3,75) = 33,75."},
+{id:'j1an1',matiere:'anglais',titre:'Complète le dialogue',duree:'5 min',consigne:"Complète le dialogue.",items:[
+{prompt:'— Hello! How are you?\n— ______, thank you.',type:'text',answers:["i'm fine","i am fine","fine"]},
+{prompt:'— I\'m fine, ______ .',type:'text',answers:['thank you','thanks']},
+{prompt:'— Goodbye!\n— ______!',type:'text',answers:['goodbye','bye','see you']}],
+explication:"« I'm fine, thank you » = je vais bien, merci."},
+{id:'j1an2',matiere:'anglais',titre:'Associe',duree:'5 min',consigne:"Choisis la traduction.",items:[
+{prompt:'Good morning = ?',type:'radio',options:['Bonsoir','Bonjour (matin)','Bonne nuit','Au revoir'],correctIndex:1},
+{prompt:'Good evening = ?',type:'radio',options:['Bonsoir','Bonjour (matin)','Bonne nuit','Au revoir'],correctIndex:0},
+{prompt:'Good night = ?',type:'radio',options:['Bonsoir','Bonjour (matin)','Bonne nuit','Au revoir'],correctIndex:2},
+{prompt:'Goodbye = ?',type:'radio',options:['Bonsoir','Bonjour (matin)','Bonne nuit','Au revoir'],correctIndex:3}],
+explication:"Good night = avant de dormir. Good evening = bonsoir."}]},
+{num:2,titre:"Les bases",duree:"50 min",echauffement:"Calcul mental : 9 × 7 ; 56 + 44 ; 200 − 75 ; 8 × 6 ; 81 ÷ 9.",exercices:[
+{id:'j2fr1',matiere:'francais',titre:'Groupes dans la phrase',duree:'5 min',consigne:"Fonction du groupe souligné.",items:[
+{prompt:'[Le petit garçon] joue dans le jardin.',type:'radio',options:['sujet','verbe','complément'],correctIndex:0},
+{prompt:'Marie [mange] une pomme.',type:'radio',options:['sujet','verbe','complément'],correctIndex:1},
+{prompt:'Nous partons [demain matin].',type:'radio',options:['sujet','verbe','complément'],correctIndex:2},
+{prompt:'[Les oiseaux] chantent.',type:'radio',options:['sujet','verbe','complément'],correctIndex:0}],
+explication:"Sujet = action. Verbe = ce qu'on fait. Complément = info."},
+{id:'j2fr2',matiere:'francais',titre:'Être et avoir',duree:'5 min',consigne:"Complète au présent.",items:[
+{prompt:'Je ___ un frère.',type:'text',answers:['ai']},{prompt:'Tu ___ à la maison.',type:'text',answers:['es']},
+{prompt:'Nous ___ contents.',type:'text',answers:['sommes']},{prompt:'Ils ___ deux chats.',type:'text',answers:['ont']},
+{prompt:'Elle ___ grande.',type:'text',answers:['est']}],
+explication:"être : suis, es, est, sommes, êtes, sont. avoir : ai, as, a, avons, avez, ont."},
+{id:'j2fr3',matiere:'francais',titre:'Infinitif et groupe',duree:'5 min',consigne:"Infinitif + groupe.",items:[
+{prompt:'Il mange.',type:'fields',fields:[{label:'Infinitif',answers:['manger']},{label:'Groupe',answers:['1','1er','premier']}],reponse:'manger — 1er'},
+{prompt:'Nous finissons.',type:'fields',fields:[{label:'Infinitif',answers:['finir']},{label:'Groupe',answers:['2','2e','deuxième']}],reponse:'finir — 2e'},
+{prompt:'Elle prend.',type:'fields',fields:[{label:'Infinitif',answers:['prendre']},{label:'Groupe',answers:['3','3e','troisième']}],reponse:'prendre — 3e'},
+{prompt:'Vous allez.',type:'fields',fields:[{label:'Infinitif',answers:['aller']},{label:'Groupe',answers:['3','3e','troisième']}],reponse:'aller — 3e'}],
+explication:"1er = -ER sauf aller. 2e = -IR → -issons. 3e = autres."},
+{id:'j2ma1',matiere:'maths',titre:'Valeur des chiffres',duree:'5 min',consigne:"Dans 34,752.",items:[
+{prompt:'Le 3',type:'text',answers:['dizaines']},{prompt:'Le 4',type:'text',answers:['unités']},
+{prompt:'Le 7',type:'text',answers:['dixièmes','dixiemes']},{prompt:'Le 5',type:'text',answers:['centièmes','centiemes']},
+{prompt:'Le 2',type:'text',answers:['millièmes','milliemes']}],
+explication:"Partie entière : unités, dizaines. Décimale : dixièmes, centièmes, millièmes."},
+{id:'j2ma2',matiere:'maths',titre:'Opérations',duree:'6 min',consigne:"Calcule.",items:[
+{prompt:'12,45 + 3,7 = ?',type:'text',answers:['16.15','16,15']},{prompt:'8,06 + 15,9 = ?',type:'text',answers:['23.96','23,96']},
+{prompt:'25,3 − 8,75 = ?',type:'text',answers:['16.55','16,55']},{prompt:'100 − 34,6 = ?',type:'text',answers:['65.4','65,4']}],
+explication:"Aligne les virgules. 3,7 = 3,70."},
+{id:'j2ma3',matiere:'maths',titre:'Problème',duree:'4 min',consigne:"En km.",items:[
+{prompt:'12,5 km + 8,75 km = ?',type:'text',answers:['21.25','21,25','21.25 km','21,25 km']}],
+explication:"21,25 km."},
+{id:'j2an1',matiere:'anglais',titre:'Se présenter',duree:'5 min',consigne:"Avec tes infos.",items:[
+{prompt:'What\'s your name? — My name is ______ .',type:'text',answers:['*'],placeholder:"Prénom"},
+{prompt:'How old are you? — I am ______ years old.',type:'text',answers:['*'],placeholder:"Âge"},
+{prompt:'Where do you live? — I live in ______ .',type:'text',answers:['*'],placeholder:"Ville"}],
+explication:"Réponses personnelles."},
+{id:'j2an2',matiere:'anglais',titre:'Traduis',duree:'5 min',consigne:"En anglais.",items:[
+{prompt:'Bonjour, je m\'appelle Léa.',type:'text',answers:['hello my name is lea','hello, my name is lea']},
+{prompt:'J\'ai dix ans.',type:'text',answers:['i am ten','i am 10','i am ten years old']},
+{prompt:'Comment vas-tu ?',type:'text',answers:['how are you','how are you?']}],
+explication:"« I am ten » (être, pas avoir)."}]},
+{num:3,titre:"Consolidation",duree:"50 min",echauffement:"Calcul mental : 6 × 8 ; 132 + 68 ; 90 − 47 ; 7 × 7 ; 144 ÷ 12.",exercices:[
+{id:'j3fr1',matiere:'francais',titre:'est / es / et',duree:'5 min',consigne:"Complète.",items:[
+{prompt:'Il ___ mon ami.',type:'radio',options:['est','es','et'],correctIndex:0},
+{prompt:'Tu ___ prêt ?',type:'radio',options:['est','es','et'],correctIndex:1},
+{prompt:'Le chat ___ noir ___ blanc.',type:'fields',fields:[{label:'1er',answers:['est']},{label:'2e',answers:['et']}],reponse:'est / et'},
+{prompt:'Elle ___ arrivée ___ elle ___ fatiguée.',type:'fields',fields:[{label:'1er',answers:['est']},{label:'2e',answers:['et']},{label:'3e',answers:['est']}],reponse:'est / et / est'}],
+explication:"« et » = et puis. « est » = être. « es » = avec tu."},
+{id:'j3fr2',matiere:'francais',titre:'Accord sujet-verbe',duree:'5 min',consigne:"Verbe correct.",items:[
+{prompt:'Les enfants joue dans la cour.',type:'text',answers:['jouent']},
+{prompt:'Ma sœur et moi prépare un gâteau.',type:'text',answers:['préparons','preparons']},
+{prompt:'Le chien aboient fort.',type:'text',answers:['aboie']},
+{prompt:'Les fleurs pousse au printemps.',type:'text',answers:['poussent']}],
+explication:"Verbe s'accorde avec le sujet."},
+{id:'j3fr3',matiere:'francais',titre:'Familles',duree:'5 min',consigne:"2 mots même famille (virgule).",items:[
+{prompt:'terre →',type:'text',answers:['terrien,terrain','terrain,territoire','terrien,territoire','terrain,terrien','territoire,terrien','terrien,terrestre','terrain,terrestre']},
+{prompt:'lait →',type:'text',answers:['laitier,laitage','laitage,laitier','laitier,laitages','laitier,allaitement','allaitement,laitier']},
+{prompt:'jardin →',type:'text',answers:['jardiner,jardinier','jardinier,jardinage','jardiner,jardinage','jardinier,jardiner','jardinage,jardiner']}],
+explication:"Même radical."},
+{id:'j3ma1',matiere:'maths',titre:'Fractions → décimaux',duree:'5 min',consigne:"Écris en décimal.",items:[
+{prompt:'45/10 = ?',type:'text',answers:['4.5','4,5']},{prompt:'3/100 = ?',type:'text',answers:['0.03','0,03']},
+{prompt:'256/1000 = ?',type:'text',answers:['0.256','0,256']},{prompt:'12/10 = ?',type:'text',answers:['1.2','1,2']},
+{prompt:'789/100 = ?',type:'text',answers:['7.89','7,89']}],
+explication:"/10 → 1 chiffre ; /100 → 2 ; /1000 → 3."},
+{id:'j3ma2',matiere:'maths',titre:'Multi-étapes',duree:'6 min',consigne:"Résous.",items:[
+{prompt:'24 bonbons × 3 paquets, j\'en mange 15. Reste ?',type:'text',answers:['57']},
+{prompt:'Bouteille 1,5 L × 4. Total L ?',type:'text',answers:['6','6 l','6l','6.0']}],
+explication:"24×3−15 = 57. 1,5×4 = 6."},
+{id:'j3ma3',matiere:'maths',titre:'Conversions',duree:'4 min',consigne:"Convertis.",items:[
+{prompt:'3 km = ___ m',type:'text',answers:['3000']},{prompt:'45 cm = ___ m',type:'text',answers:['0.45','0,45']},
+{prompt:'2,5 km = ___ m',type:'text',answers:['2500']},{prompt:'750 m = ___ km',type:'text',answers:['0.75','0,75']}],
+explication:"1 km = 1000 m."},
+{id:'j3an1',matiere:'anglais',titre:'Nombres',duree:'5 min',consigne:"En chiffres.",items:[
+{prompt:'seven',type:'text',answers:['7']},{prompt:'twelve',type:'text',answers:['12']},
+{prompt:'fifteen',type:'text',answers:['15']},{prompt:'twenty',type:'text',answers:['20']},{prompt:'nine',type:'text',answers:['9']}],
+explication:"one, two, three… twelve, fifteen, twenty."},
+{id:'j3an2',matiere:'anglais',titre:'How old?',duree:'5 min',consigne:"Personnel.",items:[
+{prompt:'How old are you?',type:'text',answers:['*'],placeholder:"I am…"},
+{prompt:'How old is your best friend?',type:'text',answers:['*'],placeholder:"My best friend is…"}],
+explication:"« am » toi, « is » ton ami."}]},{num:4,titre:"Entraînement",duree:"50 min",echauffement:"Calcul mental : 11 × 5 ; 87 + 13 ; 300 − 125 ; 9 × 9 ; 64 ÷ 8.",exercices:[
+{id:'j4fr1',matiere:'francais',titre:'Dictée',duree:'7 min',consigne:"Fais-toi dicter ou recopie.",items:[
+{prompt:'« Le petit garçon a un beau vélo rouge. Il joue dans le jardin avec ses amis. Ils sont très contents et ils rient ensemble. »',type:'textarea',answers:['*'],placeholder:"Écris…",reponse:"Le petit garçon a un beau vélo rouge. Il joue dans le jardin avec ses amis. Ils sont très contents et ils rient ensemble."}],
+explication:"garçon (ç), joue (verbe), contents, rient."},
+{id:'j4fr2',matiere:'francais',titre:'Pluriel',duree:'5 min',consigne:"Réécris au pluriel.",items:[
+{prompt:'Le chat dort.',type:'text',answers:['les chats dorment']},
+{prompt:'L\'élève lit un livre.',type:'text',answers:['les élèves lisent des livres','les élèves lisent un livre','les élèves lisent les livres']},
+{prompt:'La fille joue.',type:'text',answers:['les filles jouent']}],
+explication:"Nom + s, verbe au pluriel."},
+{id:'j4fr3',matiere:'francais',titre:'Portrait',duree:'8 min',consigne:"5 phrases (2 verbes présent, 1 adjectif, « C'est… »).",items:[
+{prompt:'Ton portrait :',type:'textarea',answers:['*'],placeholder:"C'est…",reponse:"Ex. : C'est un garçon curieux. Il a des cheveux bruns. Il porte des lunettes. Il aime lire. Il sourit souvent."}],
+explication:"5 phrases, 2 verbes présent, 1 adjectif."},
+{id:'j4ma1',matiere:'maths',titre:'Calcul mental',duree:'5 min',consigne:"Calcule.",items:[
+{prompt:'12,5 + 2,5 = ?',type:'text',answers:['15','15.0']},{prompt:'20 − 7,5 = ?',type:'text',answers:['12.5','12,5']},
+{prompt:'3 × 1,5 = ?',type:'text',answers:['4.5','4,5']},{prompt:'10 − 0,4 = ?',type:'text',answers:['9.6','9,6']}],
+explication:"10 − 0,4 = 9,6."},
+{id:'j4ma2',matiere:'maths',titre:'Problèmes',duree:'6 min',consigne:"En euros.",items:[
+{prompt:'Tablette 249,90 € + coque 19,50 €. Total ?',type:'text',answers:['269.4','269,4','269.40','269,40']},
+{prompt:'15 € et 3 stylos à 2,50 €. Assez ? Reste ? (ex : oui 7,50)',type:'text',answers:['oui 7.5','oui 7,5','oui 7.50','oui 7,50']}],
+explication:"249,90+19,50 = 269,40. 3×2,50=7,50 ; reste 7,50."},
+{id:'j4ma3',matiere:'maths',titre:'Tableau',duree:'4 min',consigne:"Lundi 12,5 ; mardi 14,2 ; mercredi 11,8 ; jeudi 15 ; vendredi 13,6.",items:[
+{prompt:'Plus chaud ?',type:'text',answers:['jeudi']},
+{prompt:'Plus froid ?',type:'text',answers:['mercredi']}],
+explication:"Max = jeudi (15). Min = mercredi (11,8)."},
+{id:'j4an1',matiere:'anglais',titre:'Ordre dialogue',duree:'5 min',consigne:"Numéro 1 à 5.",items:[
+{prompt:'« Hello, how are you? »',type:'text',answers:['1']},{prompt:'« I\'m fine, thank you. »',type:'text',answers:['2']},
+{prompt:'« What\'s your name? »',type:'text',answers:['3']},{prompt:'« My name is Tom. And you? »',type:'text',answers:['4']},
+{prompt:'« Goodbye! »',type:'text',answers:['5']}],
+explication:"Salutation → ça va → nom → réponse → au revoir."},
+{id:'j4an2',matiere:'anglais',titre:'Complète',duree:'5 min',consigne:"Mots anglais.",items:[
+{prompt:'H _ l l o',type:'text',answers:['hello']},{prompt:'G _ o d b y e',type:'text',answers:['goodbye']},
+{prompt:'M _ n a m e i s…',type:'text',answers:['my name is','mynameis','my']},
+{prompt:'H o w o _ d a r e y o u ?',type:'text',answers:['how old are you']}],
+explication:"How old are you? = Quel âge ?"}]},
+{num:5,titre:"Mini-bilan",duree:"35 min",echauffement:"Journée bilan.",exercices:[
+{id:'j5fr1',matiere:'francais',titre:'QCM',duree:'10 min',consigne:"Bonne réponse.",items:[
+{prompt:'« Les enfants jouent » : sujet ?',type:'radio',options:['enfants','Les enfants','jouent'],correctIndex:1},
+{prompt:'« Ils (avoir) un chien » :',type:'radio',options:['ont','avons','avez'],correctIndex:0},
+{prompt:'« Il __ un livre » :',type:'radio',options:['à','a','as'],correctIndex:1},
+{prompt:'« Tu __ gentil » :',type:'radio',options:['est','es','et'],correctIndex:1},
+{prompt:'« finir » :',type:'radio',options:['1er groupe','2e groupe','3e groupe'],correctIndex:1}],
+explication:"Revois J1–J4."},
+{id:'j5ma1',matiere:'maths',titre:'Mixte',duree:'15 min',consigne:"Réponds.",items:[
+{prompt:'3,45 en fraction décimale',type:'text',answers:['345/100','345/100 =']},
+{prompt:'Range : 1,2 ; 1,02 ; 1,20 ; 1,22 (;)',type:'text',answers:['1.02;1.2;1.20;1.22','1.02;1.2;1.22;1.20','1.02; 1.2; 1.20; 1.22','1.02;1.20;1.2;1.22']},
+{prompt:'45,6 + 7,85 = ?',type:'text',answers:['53.45','53,45']},
+{prompt:'60 − 12,45 = ?',type:'text',answers:['47.55','47,55']},
+{prompt:'Rectangle 5,5 × 3 cm. Périmètre ?',type:'text',answers:['17','17 cm']}],
+explication:"Périmètre = 2×(5,5+3) = 17."},
+{id:'j5an1',matiere:'anglais',titre:'Vocabulaire',duree:'10 min',consigne:"En anglais.",items:[
+{prompt:'Bonjour',type:'text',answers:['hello','good morning']},{prompt:'Au revoir',type:'text',answers:['goodbye','bye']},
+{prompt:'Comment vas-tu ?',type:'text',answers:['how are you','how are you?']},
+{prompt:'Je m\'appelle…',type:'text',answers:['my name is','my name is...']},
+{prompt:'J\'ai dix ans',type:'text',answers:['i am ten','i am 10','i am ten years old']},
+{prompt:'sept',type:'text',answers:['seven']},{prompt:'douze',type:'text',answers:['twelve']},{prompt:'quinze',type:'text',answers:['fifteen']}],
+explication:"Vocabulaire de base."}]},{num:6,titre:"Nouveaux angles",duree:"50 min",echauffement:"Calcul mental : 15 × 4 ; 125 + 75 ; 400 − 250 ; 12 × 3 ; 96 ÷ 8.",exercices:[
+{id:'j6fr1',matiere:'francais',titre:'Dictionnaire',duree:'6 min',consigne:"« jardin (n.m.) : terrain où l'on cultive des plantes. → jardiner, jardinier, jardinage. »",items:[
+{prompt:'Nature ?',type:'radio',options:['nom masculin','verbe','adjectif'],correctIndex:0},
+{prompt:'Signification (court) ?',type:'text',answers:['terrain ou l on cultive des plantes','terrain où l\'on cultive des plantes','terrain ou on cultive des plantes']},
+{prompt:'Un mot de la même famille ?',type:'text',answers:['jardiner','jardinier','jardinage']}],
+explication:"n.m. = nom masculin."},
+{id:'j6fr2',matiere:'francais',titre:'Compléments',duree:'5 min',consigne:"Quand, où, comment ?",items:[
+{prompt:'[Hier], nous avons visité un musée.',type:'radio',options:['quand','où','comment'],correctIndex:0},
+{prompt:'Les élèves travaillent [dans la classe].',type:'radio',options:['quand','où','comment'],correctIndex:1},
+{prompt:'Il court [rapidement].',type:'radio',options:['quand','où','comment'],correctIndex:2}],
+explication:"quand = temps. où = lieu. comment = manière."},
+{id:'j6fr3',matiere:'francais',titre:'Conjugaison',duree:'4 min',consigne:"Présent.",items:[
+{prompt:'Je (finir)',type:'text',answers:['finis']},{prompt:'Tu (prendre)',type:'text',answers:['prends']},
+{prompt:'Nous (aller)',type:'text',answers:['allons']}],
+explication:"finis, prends, allons."},
+{id:'j6ma1',matiere:'maths',titre:'Perpendiculaires',duree:'6 min',consigne:"Réponds.",items:[
+{prompt:'Angle perpendiculaire (°) ?',type:'text',answers:['90','90°']},
+{prompt:'Parallèles se coupent ? (oui/non)',type:'radio',options:['oui','non'],correctIndex:1}],
+explication:"Perpendiculaire = 90°. Parallèles = jamais."},
+{id:'j6ma2',matiere:'maths',titre:'Figures',duree:'5 min',consigne:"Carré 4 cm et rectangle 5×3 cm.",items:[
+{prompt:'Périmètre carré (cm)',type:'text',answers:['16','16 cm']},
+{prompt:'Aire carré (cm²)',type:'text',answers:['16','16cm2','16 cm2']},
+{prompt:'Périmètre rectangle (cm)',type:'text',answers:['16','16 cm']},
+{prompt:'Aire rectangle (cm²)',type:'text',answers:['15','15cm2','15 cm2']}],
+explication:"Carré : P=4c, A=c². Rectangle : P=2(L+l), A=L×l."},
+{id:'j6ma3',matiere:'maths',titre:'Angles droits',duree:'4 min',consigne:"Oui/non.",items:[
+{prompt:'Coin de table ?',type:'radio',options:['oui','non'],correctIndex:0},
+{prompt:'Horloge à 3h ?',type:'radio',options:['oui','non'],correctIndex:0}],
+explication:"Angle droit = 90°."},
+{id:'j6an1',matiere:'anglais',titre:'Jours',duree:'5 min',consigne:"En anglais.",items:[
+{prompt:'lundi',type:'text',answers:['monday']},{prompt:'mardi',type:'text',answers:['tuesday']},
+{prompt:'mercredi',type:'text',answers:['wednesday']},{prompt:'jeudi',type:'text',answers:['thursday']},
+{prompt:'vendredi',type:'text',answers:['friday']}],
+explication:"Majuscule au début."},
+{id:'j6an2',matiere:'anglais',titre:'Météo',duree:'5 min',consigne:"Traduction.",items:[
+{prompt:'It\'s sunny',type:'radio',options:['Il pleut','Il fait beau','Il y a du vent','Nuageux'],correctIndex:1},
+{prompt:'It\'s rainy',type:'radio',options:['Il pleut','Il fait beau','Il y a du vent','Nuageux'],correctIndex:0},
+{prompt:'It\'s cloudy',type:'radio',options:['Il pleut','Il fait beau','Il y a du vent','Nuageux'],correctIndex:3},
+{prompt:'It\'s windy',type:'radio',options:['Il pleut','Il fait beau','Il y a du vent','Nuageux'],correctIndex:2}],
+explication:"sunny=ensoleillé, rainy=pluvieux, cloudy=nuageux, windy=venteux."}]},
+{num:7,titre:"Réinvestissement",duree:"50 min",echauffement:"Calcul mental : 25 × 4 ; 250 + 250 ; 500 − 175 ; 7 × 9 ; 120 ÷ 10.",exercices:[
+{id:'j7fr1',matiere:'francais',titre:'Lecture',duree:'8 min',consigne:"« Le petit renard vit dans la forêt. Chaque matin, il sort de son terrier et cherche à manger. Il aime les baies et les petits insectes. Un jour, il rencontre un lapin. Ils deviennent amis et jouent ensemble sous les arbres. »",items:[
+{prompt:'Où vit le renard ?',type:'text',answers:['dans la forêt','dans la foret','la forêt','forêt']},
+{prompt:'Cherche quoi ?',type:'text',answers:['à manger','a manger','de la nourriture','nourriture']},
+{prompt:'Mange quoi ?',type:'text',answers:['des baies et des petits insectes','baies et insectes','des baies et des insectes']},
+{prompt:'Rencontre qui ?',type:'text',answers:['un lapin','lapin']},
+{prompt:'Font quoi ?',type:'text',answers:['ils jouent','ils jouent ensemble','jouer','jouent ensemble','ils jouent ensemble sous les arbres']}],
+explication:"Surligne le texte."},
+{id:'j7fr2',matiere:'francais',titre:'Analyse',duree:'5 min',consigne:'« Le matin, les élèves de CM2 travaillent dans leur classe. »',items:[
+{prompt:'Sujet',type:'text',answers:['les élèves de cm2','les eleves de cm2']},
+{prompt:'Verbe',type:'text',answers:['travaillent']},
+{prompt:'Complément',type:'text',answers:['le matin','le matin,','le matin, dans leur classe','dans leur classe']}],
+explication:"Le matin = quand. Dans leur classe = où."},
+{id:'j7fr3',matiere:'francais',titre:'Description',duree:'7 min',consigne:"4 phrases (1 adjectif, 1 verbe présent, 1 compl. lieu).",items:[
+{prompt:'Description :',type:'textarea',answers:['*'],placeholder:"La forêt est…",reponse:"Ex. : La forêt est grande et verte. Les arbres sont très hauts. Le renard habite sous les arbres. Des oiseaux chantent dans le ciel."}],
+explication:"Vérifie les 3 éléments demandés."},
+{id:'j7ma1',matiere:'maths',titre:'Problèmes',duree:'6 min',consigne:"En euros.",items:[
+{prompt:'1,25 € × 6 = ?',type:'text',answers:['7.5','7,5','7.50','7,50']},
+{prompt:'Billet 10 €. Rendu ?',type:'text',answers:['2.5','2,5','2.50','2,50']}],
+explication:"1,25×6=7,50 ; 10−7,50=2,50."},
+{id:'j7ma2',matiere:'maths',titre:'Conversions',duree:'5 min',consigne:"Convertis.",items:[
+{prompt:'2,3 km = ___ m',type:'text',answers:['2300']},{prompt:'450 cm = ___ m',type:'text',answers:['4.5','4,5']},
+{prompt:'1,5 L = ___ cL',type:'text',answers:['150']},{prompt:'3 kg = ___ g',type:'text',answers:['3000']}],
+explication:"1 km=1000 m. 1 m=100 cm. 1 L=100 cL. 1 kg=1000 g."},
+{id:'j7ma3',matiere:'maths',titre:'Tableau',duree:'4 min',consigne:"Léa 12,5 ; Tom 15 ; Ana 11,75 ; Sam 14,25.",items:[
+{prompt:'Meilleur ?',type:'text',answers:['tom']},{prompt:'Total ?',type:'text',answers:['53.5','53,5']}],
+explication:"Total = 53,5."},
+{id:'j7an1',matiere:'anglais',titre:'Compréhension',duree:'5 min',consigne:"« Hello! My name is Emma. I am ten years old. I live in London. I have a dog. It is brown. I like playing football. »",items:[
+{prompt:'What\'s her name?',type:'text',answers:['emma','her name is emma']},
+{prompt:'How old is she?',type:'text',answers:['ten','10','she is ten','she is 10']},
+{prompt:'Where does she live?',type:'text',answers:['london','in london','she lives in london']},
+{prompt:'What colour is her dog?',type:'text',answers:['brown','it is brown']}],
+explication:"Lis les infos du texte."},
+{id:'j7an2',matiere:'anglais',titre:'Présentation',duree:'5 min',consigne:"5 phrases (nom, âge, ville, animal, loisir).",items:[
+{prompt:'Ta présentation :',type:'textarea',answers:['*'],placeholder:"Hello, my name is…",reponse:"Ex. : Hello, my name is Léo. I am ten years old. I live in Paris. I have a cat. I like playing football."}],
+explication:"Structure : Hello / My name is / I am / I live in / I have / I like."}]},{num:8,titre:"Approfondissement",duree:"50 min",echauffement:"Calcul mental : 13 × 5 ; 175 + 25 ; 350 − 150 ; 8 × 7 ; 144 ÷ 12.",exercices:[
+{id:'j8fr1',matiere:'francais',titre:'on / ont / on n\'',duree:'5 min',consigne:"Complète.",items:[
+{prompt:'___ a un nouveau livre.',type:'radio',options:["on","ont","on n'"],correctIndex:0},
+{prompt:'Ils ___ fini.',type:'radio',options:["on","ont","on n'"],correctIndex:1},
+{prompt:"___ a pas le temps.",type:'radio',options:["on","ont","on n'"],correctIndex:2},
+{prompt:'Les enfants ___ joué.',type:'radio',options:["on","ont","on n'"],correctIndex:1},
+{prompt:'___ arrive bientôt.',type:'radio',options:["on","ont","on n'"],correctIndex:0}],
+explication:"ont = avoir. on = pronom. on n' = on + ne."},
+{id:'j8fr2',matiere:'francais',titre:'Accord',duree:'5 min',consigne:"Verbe correct.",items:[
+{prompt:'Le chat et le chien joue ensemble.',type:'text',answers:['jouent']},
+{prompt:'Ma sœur et moi rangeons la chambre.',type:'text',answers:['rangeons']}],
+explication:"Sujet pluriel → verbe au pluriel."},
+{id:'j8fr3',matiere:'francais',titre:'Réécriture',duree:'5 min',consigne:"« Je » → « elle » : « Je suis à l'école. J'ai un livre. Je lis une histoire. J'écris une phrase. »",items:[
+{prompt:'Réécriture :',type:'textarea',answers:['*'],placeholder:"Elle est…",reponse:"Elle est à l'école. Elle a un livre. Elle lit une histoire. Elle écrit une phrase."}],
+explication:"suis→est, ai→a, lis→lit, écris→écrit."},
+{id:'j8ma1',matiere:'maths',titre:'Problèmes complexes',duree:'8 min',consigne:"Résous.",items:[
+{prompt:'3 enfants 7,50 € + 2 adultes 9,50 € ?',type:'text',answers:['41.5','41,5','41.50','41,50']},
+{prompt:'Piscine 25,5 m × 4 longueurs ?',type:'text',answers:['102','102 m']},
+{prompt:'100 € − 12,90 − 24,50 − 2,75 ?',type:'text',answers:['59.85','59,85']}],
+explication:"1) 41,50. 2) 102 m. 3) 59,85 €."},
+{id:'j8ma2',matiere:'maths',titre:'Calcul',duree:'5 min',consigne:"Calcule.",items:[
+{prompt:'123,45 + 67,8 = ?',type:'text',answers:['191.25','191,25']},
+{prompt:'500 − 78,25 = ?',type:'text',answers:['421.75','421,75']},
+{prompt:'45,6 + 8,75 + 12 = ?',type:'text',answers:['66.35','66,35']}],
+explication:"12 = 12,00. 500 = 500,00."},
+{id:'j8ma3',matiere:'maths',titre:'Diagonales',duree:'7 min',consigne:"Rectangle 6×4 cm.",items:[
+{prompt:'Diagonales se coupent en leur…',type:'text',answers:['milieu']},
+{prompt:'Même longueur ? (oui/non)',type:'radio',options:['oui','non'],correctIndex:0}],
+explication:"Diagonales rectangle : milieu + même longueur."},
+{id:'j8an1',matiere:'anglais',titre:'Dialogue',duree:'5 min',consigne:"6 répliques.",items:[
+{prompt:'Ton dialogue :',type:'textarea',answers:['*'],placeholder:"— Hello!…",reponse:"— Hello! How are you?\n— I'm fine, thank you. What's your name?\n— My name is Léo. And you?\n— My name is Emma. How old are you?\n— I am ten years old.\n— Goodbye!"}],
+explication:"Salutation, ça va, nom, âge, au revoir."},
+{id:'j8an2',matiere:'anglais',titre:'Catégories',duree:'5 min',consigne:"Salutation / présentation.",items:[
+{prompt:'Hello',type:'radio',options:['salutation','présentation'],correctIndex:0},
+{prompt:'My name is…',type:'radio',options:['salutation','présentation'],correctIndex:1},
+{prompt:'Good morning',type:'radio',options:['salutation','présentation'],correctIndex:0},
+{prompt:'I am ten',type:'radio',options:['salutation','présentation'],correctIndex:1},
+{prompt:'How are you?',type:'radio',options:['salutation','présentation'],correctIndex:0},
+{prompt:'I live in Paris',type:'radio',options:['salutation','présentation'],correctIndex:1}],
+explication:"Salutations = Hello, Good morning, How are you?"}]},
+{num:9,titre:"Ciblage des difficultés",duree:"45 min",echauffement:"Reprends les exercices difficiles.",exercices:[
+{id:'j9a',matiere:'francais',titre:'Difficultés FR',duree:'5 min',consigne:"2 notions fragiles.",items:[
+{prompt:'Notion 1',type:'text',answers:['*'],placeholder:"Ex : homophones"},
+{prompt:'Notion 2',type:'text',answers:['*'],placeholder:"Ex : accord sujet-verbe"}],
+explication:"À revoir en priorité."},
+{id:'j9b',matiere:'maths',titre:'Difficultés MA',duree:'5 min',consigne:"2 notions fragiles.",items:[
+{prompt:'Notion 1',type:'text',answers:['*'],placeholder:"Ex : décimaux"},
+{prompt:'Notion 2',type:'text',answers:['*'],placeholder:"Ex : problèmes"}],
+explication:"À revoir en priorité."},
+{id:'j9c',matiere:'anglais',titre:'Difficultés AN',duree:'5 min',consigne:"2 notions fragiles.",items:[
+{prompt:'Notion 1',type:'text',answers:['*'],placeholder:"Ex : nombres"},
+{prompt:'Notion 2',type:'text',answers:['*'],placeholder:"Ex : salutations"}],
+explication:"Écoute et répète à voix haute."}]},
+{num:10,titre:"Évaluation finale",duree:"45 min",echauffement:"Évaluation.",exercices:[
+{id:'j10fr1',matiere:'francais',titre:'Éval FR',duree:'15 min',consigne:"Évaluation finale.",items:[
+{prompt:'« Le petit chat mange sa pâtée » : sujet ?',type:'text',answers:['le petit chat','le chat','chat']},
+{prompt:'Même phrase : verbe ?',type:'text',answers:['mange']},
+{prompt:'« Les élèves écoutent » : sujet ?',type:'text',answers:['les élèves','les eleves','élèves','eleves']},
+{prompt:'je (chanter)',type:'text',answers:['chante']},
+{prompt:'tu (être)',type:'text',answers:['es']},
+{prompt:'nous (avoir)',type:'text',answers:['avons']},
+{prompt:'ils (finir)',type:'text',answers:['finissent']},
+{prompt:'« Il __ un vélo » (a/à)',type:'radio',options:['a','à'],correctIndex:0},
+{prompt:'« Tu __ prêt » (est/es)',type:'radio',options:['est','es'],correctIndex:1},
+{prompt:'« Ils __ joué » (ont/on)',type:'radio',options:['ont','on'],correctIndex:0}],
+explication:"Compare avec jours précédents."},
+{id:'j10ma1',matiere:'maths',titre:'Éval MA',duree:'15 min',consigne:"Évaluation finale.",items:[
+{prompt:'7/10 = ?',type:'text',answers:['0.7','0,7']},
+{prompt:'25/100 = ?',type:'text',answers:['0.25','0,25']},
+{prompt:'3/1000 = ?',type:'text',answers:['0.003','0,003']},
+{prompt:'145/100 = ?',type:'text',answers:['1.45','1,45']},
+{prompt:'45,75 + 12,5 = ?',type:'text',answers:['58.25','58,25']},
+{prompt:'80 − 23,45 = ?',type:'text',answers:['56.55','56,55']},
+{prompt:'Livre 14,50 € × 3, billet 50 €, rendu ?',type:'text',answers:['6.5','6,5','6.50','6,50']}],
+explication:"14,50×3=43,50. 50−43,50=6,50."},
+{id:'j10an1',matiere:'anglais',titre:'Éval AN',duree:'10 min',consigne:"Évaluation finale.",items:[
+{prompt:'« Hello! ______ are you? »',type:'text',answers:['how']},
+{prompt:'« I\'m fine, ______ . »',type:'text',answers:['thank you','thanks']},
+{prompt:'« What\'s ______ name? »',type:'text',answers:['your']},
+{prompt:'« My ______ is Léo. »',type:'text',answers:['name']},
+{prompt:'« ______ old are you? »',type:'text',answers:['how']},
+{prompt:'« I am ten ______ old. »',type:'text',answers:['years']},
+{prompt:'Traduis : Bonjour',type:'text',answers:['hello','good morning']},
+{prompt:'Traduis : Au revoir',type:'text',answers:['goodbye','bye']},
+{prompt:'Traduis : J\'ai dix ans',type:'text',answers:['i am ten','i am 10','i am ten years old']},
+{prompt:'Traduis : Je m\'appelle Emma',type:'text',answers:['my name is emma']},
+{prompt:'Traduis : Comment vas-tu ?',type:'text',answers:['how are you','how are you?']}],
+explication:"Revois J1, J2, J6 si erreurs."}]}
+];
+
+const STORAGE_KEY = 'cm2-p1-progress-v4';
+let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+if(!state.rewards) state.rewards = { badges:[], bestStreak:0, trophyWon:false, celebratedBadges:[] };
+if(!state.onboarding) state.onboarding = { firstName:'', startDate:null };
+function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function getExState(id){ if(!state[id]) state[id] = { done:false, values:{}, checked:false, score:null }; return state[id]; }
+function findExercice(id){ for(const j of DATA) for(const ex of j.exercices) if(ex.id===id) return ex; return null; }
+function findJourByNum(num){ return DATA.find(j=>j.num===num); }
+
+function isOnboarded(){
+  return state.onboarding && state.onboarding.firstName && state.onboarding.firstName.trim() && state.onboarding.startDate;
+}
+function getStartCalendarDay(){
+  const d = new Date(state.onboarding.startDate);
+  d.setHours(0,0,0,0);
+  return d.getTime();
+}
+function getTodayCalendarDay(){
+  const d = new Date();
+  d.setHours(0,0,0,0);
+  return d.getTime();
+}
+function getElapsedDays(){
+  if(!isOnboarded()) return 0;
+  return Math.max(0, Math.floor((getTodayCalendarDay() - getStartCalendarDay()) / 86400000));
+}
+function getCurrentDayNum(){ return Math.min(10, getElapsedDays() + 1); }
+function getRemainingDays(){ return Math.max(0, 10 - getElapsedDays()); }
+function isDayUnlocked(num){ return isOnboarded() && getElapsedDays() >= (num - 1); }
+function getUnlockDate(num){
+  const d = new Date(state.onboarding.startDate);
+  d.setHours(0,0,0,0);
+  d.setDate(d.getDate() + (num - 1));
+  return d;
+}
+
+function startAdventure(){
+  const input = document.getElementById('firstNameInput');
+  const name = input.value.trim();
+  if(!name){ input.focus(); input.style.borderColor = '#e74c3c'; return; }
+  if(name.length < 2){ alert('Ton prénom doit contenir au moins 2 lettres.'); return; }
+  state.onboarding.firstName = name;
+  state.onboarding.startDate = new Date().toISOString();
+  saveState();
+  document.getElementById('onboardingOverlay').classList.add('hidden');
+  updateHeader();
+  render();
+  setTimeout(() => showWelcomeToast(name), 400);
+}
+function showWelcomeToast(name){
+  const toast = document.createElement('div');
+  toast.className = 'badge-toast';
+  toast.innerHTML = `<div class="toast-emoji">🚀</div><div><div class="toast-title">C'est parti !</div><div class="toast-name">Bonjour ${escapeHtml(name)} !</div><div class="toast-desc">Bonne chance pour les 10 jours de révisions !</div></div>`;
+  document.body.appendChild(toast);
+  burstConfetti(40);
+  setTimeout(() => { toast.classList.add('out'); setTimeout(() => toast.remove(), 400); }, 4500);
+}
+function updateHeader(){
+  const greeting = document.getElementById('greeting');
+  const dateInfo = document.getElementById('dateInfo');
+  if(!isOnboarded()){
+    if(greeting) greeting.textContent = 'Bienvenue !';
+    if(dateInfo) dateInfo.innerHTML = '';
+    return;
+  }
+  if(greeting) greeting.textContent = 'Bonjour, ' + state.onboarding.firstName + ' ! 👋';
+  if(dateInfo){
+    const now = new Date();
+    const currentDay = getCurrentDayNum();
+    const remaining = getRemainingDays();
+    let remainingText;
+    if(remaining === 0) remainingText = '🏁 Programme terminé !';
+    else if(remaining === 1) remainingText = '🏁 Dernier jour !';
+    else remainingText = '⏳ ' + remaining + ' jours restants';
+    dateInfo.innerHTML = '📅 ' + formatDateFR(now) + ' · Jour <strong>' + currentDay + ' / 10</strong> · ' + remainingText;
+  }
+}
+
+function render(){
+  renderNav();
+  renderMain();
+  updateProgress();
+  updateBadges();
+  updateHeader();
+}
+function renderNav(){
+  const nav = document.getElementById('dayNav');
+  nav.innerHTML = '';
+  DATA.forEach(j => {
+    const btn = document.createElement('button');
+    const locked = !isDayUnlocked(j.num);
+    btn.className = 'day-btn' + (locked ? ' locked' : '');
+    btn.textContent = locked ? '🔒 J' + j.num : 'J' + j.num;
+    btn.title = locked ? 'Se débloque le ' + formatDateFR(getUnlockDate(j.num)) : j.titre;
+    btn.onclick = () => selectDay(j.num);
+    btn.dataset.num = j.num;
+    nav.appendChild(btn);
+  });
+  const btnSuivi = document.createElement('button');
+  btnSuivi.className = 'day-btn';
+  btnSuivi.textContent = '📋 Suivi';
+  btnSuivi.onclick = () => selectDay('suivi');
+  btnSuivi.dataset.num = 'suivi';
+  nav.appendChild(btnSuivi);
+}
+function renderMain(){
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  DATA.forEach(j => {
+    const panel = document.createElement('div');
+    panel.className = 'jour-panel';
+    panel.id = 'panel-j' + j.num;
+    if(!isDayUnlocked(j.num)){
+      panel.innerHTML = renderLockedPanel(j);
+      main.appendChild(panel);
+      return;
+    }
+    const header = document.createElement('div');
+    header.className = 'jour-header';
+    const badge = BADGES[j.num - 1];
+    const earned = state.rewards.badges.includes(j.num);
+    header.innerHTML = '<h2>Jour ' + j.num + ' – ' + escapeHtml(j.titre) + (earned ? ' <span style="color:#ffd700;font-size:1.2rem">' + badge.emoji + '</span>' : '') + '</h2>' +
+      '<div class="meta"><span>⏱ ' + j.duree + '</span><span>📚 Français · Maths · Anglais</span></div>' +
+      (j.echauffement ? '<div class="echauffement"><strong>🔥 Échauffement :</strong> ' + escapeHtml(j.echauffement) + '</div>' : '');
+    panel.appendChild(header);
+    j.exercices.forEach(ex => panel.appendChild(renderExercice(ex)));
+    panel.appendChild(renderSelfEval(j.num));
+    main.appendChild(panel);
+  });
+  main.appendChild(renderFicheSuivi());
+  selectDay(getCurrentDayNum());
+}
+function renderLockedPanel(j){
+  const unlockDate = getUnlockDate(j.num);
+  return '<div class="jour-header"><h2>Jour ' + j.num + ' – ' + escapeHtml(j.titre) + '</h2><div class="meta"><span>🔒 Verrouillé</span></div></div>' +
+    '<div class="locked-panel"><div class="lock-icon">🔒</div>' +
+    '<h3>Ce jour n\'est pas encore disponible !</h3>' +
+    '<p>Il se débloquera automatiquement le <strong>' + formatDateFR(unlockDate) + '</strong>.</p>' +
+    '<p>En attendant, tu peux travailler sur les jours déjà débloqués.</p></div>';
+}
+function renderExercice(ex){
+  const card = document.createElement('div');
+  card.className = 'exercice ' + ex.matiere;
+  card.id = 'ex-' + ex.id;
+  const st = getExState(ex.id);
+  const header = document.createElement('div');
+  header.className = 'exercice-header';
+  const matiereLabel = ex.matiere==='francais'?'Français':(ex.matiere==='maths'?'Mathématiques':'Anglais');
+  const scoreBadge = st.score ? '<span class="badge note">⭐ ' + st.score.correct + '/' + st.score.total + '</span>' : '';
+  header.innerHTML = '<div><h3>' + escapeHtml(ex.titre) + '</h3><span class="badge matiere">' + matiereLabel + '</span> ' + scoreBadge + '</div><span class="badge duree">⏱ ' + ex.duree + '</span>';
+  card.appendChild(header);
+  if(ex.consigne){ const c = document.createElement('div'); c.className='consigne'; c.textContent=ex.consigne; card.appendChild(c); }
+  ex.items.forEach((item, idx) => card.appendChild(renderItem(ex, item, idx, st)));
+  const actions = document.createElement('div');
+  actions.className = 'exercice-actions';
+  const btnCheck = document.createElement('button'); btnCheck.className='action primary'; btnCheck.textContent='✓ Vérifier'; btnCheck.onclick=()=>checkExercice(ex.id);
+  const btnCorr = document.createElement('button'); btnCorr.className='action secondary'; btnCorr.textContent='🔒 Voir la correction'; btnCorr.onclick=()=>showCorrection(ex.id);
+  const btnReset = document.createElement('button'); btnReset.className='action danger'; btnReset.textContent='🔄 Réinitialiser'; btnReset.onclick=()=>resetExercice(ex.id);
+  actions.appendChild(btnCheck); actions.appendChild(btnCorr); actions.appendChild(btnReset);
+  card.appendChild(actions);
+  const fb = document.createElement('div'); fb.className='feedback'; fb.id='fb-'+ex.id; card.appendChild(fb);
+  if(ex.explication){ const e=document.createElement('div'); e.className='explication'; e.id='exp-'+ex.id; e.innerHTML='<strong>💡 Explication :</strong> '+escapeHtml(ex.explication); card.appendChild(e); }
+  if(st.checked && st.score){
+    setTimeout(() => {
+      applyVisualState(ex.id);
+      const fbEl = document.getElementById('fb-'+ex.id);
+      if(fbEl){
+        fbEl.className='feedback show '+(st.score.correct===st.score.total?'ok':(st.score.correct>=st.score.total/2?'info':'ko'));
+        fbEl.textContent='⭐ Résultat : '+st.score.correct+' / '+st.score.total;
+        const exp=document.getElementById('exp-'+ex.id); if(exp) exp.classList.add('show');
+      }
+    }, 0);
+  }
+  return card;
+}
+function renderItem(ex, item, idx, st){
+  const itemEl = document.createElement('div');
+  itemEl.className = 'item';
+  itemEl.dataset.idx = idx;
+  const prompt = document.createElement('div'); prompt.className='prompt'; prompt.textContent=item.prompt; itemEl.appendChild(prompt);
+  const key = 'i' + idx;
+  if(item.type === 'fields'){
+    item.fields.forEach((f, fi) => {
+      const row = document.createElement('div'); row.className='field-row';
+      const label = document.createElement('label'); label.textContent=f.label; row.appendChild(label);
+      const inp = document.createElement('input'); inp.type='text'; inp.dataset.key=key+'-'+fi;
+      inp.value = (st.values && st.values[key+'-'+fi]) || '';
+      inp.placeholder = '...';
+      inp.addEventListener('input', () => { if(!st.values) st.values={}; st.values[key+'-'+fi]=inp.value; saveState(); });
+      row.appendChild(inp); itemEl.appendChild(row);
+    });
+  } else if(item.type === 'text'){
+    const inp = document.createElement('input'); inp.type='text'; inp.dataset.key=key;
+    inp.value = (st.values && st.values[key]) || '';
+    inp.placeholder = item.placeholder || '...';
+    inp.addEventListener('input', () => { if(!st.values) st.values={}; st.values[key]=inp.value; saveState(); });
+    itemEl.appendChild(inp);
+  } else if(item.type === 'radio'){
+    const group = document.createElement('div'); group.className='radio-group';
+    const groupName = ex.id + '-' + key;
+    item.options.forEach((opt, oi) => {
+      const label = document.createElement('label'); label.className='radio-option';
+      const radio = document.createElement('input'); radio.type='radio'; radio.name=groupName; radio.value=oi;
+      if(st.values && st.values[key]===String(oi)) radio.checked=true;
+      radio.addEventListener('change', () => { if(!st.values) st.values={}; st.values[key]=String(oi); saveState(); });
+      label.appendChild(radio); label.appendChild(document.createTextNode(' '+opt));
+      group.appendChild(label);
+    });
+    itemEl.appendChild(group);
+  } else if(item.type === 'textarea'){
+    const ta = document.createElement('textarea'); ta.dataset.key=key;
+    ta.value = (st.values && st.values[key]) || '';
+    ta.placeholder = item.placeholder || 'Écris ici…';
+    ta.addEventListener('input', () => { if(!st.values) st.values={}; st.values[key]=ta.value; saveState(); });
+    itemEl.appendChild(ta);
+  }
+  return itemEl;
+}
+function applyVisualState(id){
+  const ex = findExercice(id); const card = document.getElementById('ex-'+id);
+  if(!card || !ex) return;
+  ex.items.forEach((item, idx) => {
+    const itemEl = card.querySelector('.item[data-idx="'+idx+'"]');
+    if(!itemEl) return;
+    const key = 'i' + idx;
+    if(item.type==='fields'){
+      let allOk = true;
+      item.fields.forEach((f, fi) => {
+        const inp = itemEl.querySelector('input[data-key="'+key+'-'+fi+'"]');
+        if(!inp) return;
+        const ok = matchAnswer(inp.value, f.answers);
+        inp.classList.remove('correct','incorrect'); inp.classList.add(ok?'correct':'incorrect');
+        if(!ok) allOk=false;
+      });
+      itemEl.classList.add(allOk?'correct':'incorrect');
+    } else if(item.type==='text'){
+      const inp = itemEl.querySelector('input[data-key="'+key+'"]'); if(!inp) return;
+      const ok = matchAnswer(inp.value, item.answers);
+      inp.classList.remove('correct','incorrect'); inp.classList.add(ok?'correct':'incorrect');
+      itemEl.classList.add(ok?'correct':'incorrect');
+    } else if(item.type==='radio'){
+      const sel = itemEl.querySelector('input[type="radio"]:checked');
+      itemEl.querySelectorAll('.radio-option').forEach(l=>l.classList.remove('correct','incorrect'));
+      if(sel){
+        const oi = parseInt(sel.value); const ok = oi===item.correctIndex;
+        itemEl.querySelectorAll('.radio-option')[oi].classList.add(ok?'correct':'incorrect');
+        if(!ok) itemEl.querySelectorAll('.radio-option')[item.correctIndex].classList.add('correct');
+        itemEl.classList.add(ok?'correct':'incorrect');
+      }
+    }
+  });
+}
+function renderSelfEval(num){
+  const div = document.createElement('div'); div.className='self-eval';
+  div.innerHTML = '<h4>Comment te sens-tu après le Jour '+num+' ?</h4><div class="emoji-btns"><button class="emoji-btn" data-emo="happy" title="Acquis">😀</button><button class="emoji-btn" data-emo="ok" title="En cours">😐</button><button class="emoji-btn" data-emo="sad" title="Fragile">😟</button></div>';
+  const key = 'selfeval-j'+num;
+  if(state[key]) setTimeout(()=>{ const b=div.querySelector('.emoji-btn[data-emo="'+state[key]+'"]'); if(b) b.classList.add('selected'); },0);
+  div.querySelectorAll('.emoji-btn').forEach(btn => {
+    btn.onclick = () => {
+      div.querySelectorAll('.emoji-btn').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected'); state[key]=btn.dataset.emo; saveState();
+    };
+  });
+  return div;
+}
+
+function selectDay(num){
+  document.querySelectorAll('.jour-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.day-btn').forEach(b=>b.classList.remove('active'));
+  const panel = document.getElementById('panel-'+(num==='suivi'?'suivi':'j'+num)); if(panel) panel.classList.add('active');
+  const btn = document.querySelector('.day-btn[data-num="'+num+'"]'); if(btn) btn.classList.add('active');
+  if(num==='suivi') updateRadar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function checkExercice(id){
+  const ex = findExercice(id); if(!ex) return;
+  const st = getExState(id); const card = document.getElementById('ex-'+id);
+  let total=0, correct=0;
+  ex.items.forEach((item, idx) => {
+    const itemEl = card.querySelector('.item[data-idx="'+idx+'"]'); if(!itemEl) return;
+    itemEl.classList.remove('correct','incorrect');
+    const key = 'i' + idx;
+    if(item.type==='fields'){
+      let allOk = true;
+      item.fields.forEach((f, fi) => {
+        const inp = itemEl.querySelector('input[data-key="'+key+'-'+fi+'"]'); if(!inp) return;
+        const ok = matchAnswer(inp.value, f.answers);
+        inp.classList.remove('correct','incorrect'); inp.classList.add(ok?'correct':'incorrect');
+        if(!ok) allOk=false; total++; if(ok) correct++;
+      });
+      itemEl.classList.add(allOk?'correct':'incorrect');
+    } else if(item.type==='text'){
+      const inp = itemEl.querySelector('input[data-key="'+key+'"]'); if(!inp) return;
+      const ok = matchAnswer(inp.value, item.answers);
+      inp.classList.remove('correct','incorrect'); inp.classList.add(ok?'correct':'incorrect');
+      total++; if(ok) correct++;
+      itemEl.classList.add(ok?'correct':'incorrect');
+    } else if(item.type==='radio'){
+      const sel = itemEl.querySelector('input[type="radio"]:checked');
+      itemEl.querySelectorAll('.radio-option').forEach(l=>l.classList.remove('correct','incorrect'));
+      let ok=false;
+      if(sel){ const oi=parseInt(sel.value); ok=oi===item.correctIndex; itemEl.querySelectorAll('.radio-option')[oi].classList.add(ok?'correct':'incorrect'); if(!ok) itemEl.querySelectorAll('.radio-option')[item.correctIndex].classList.add('correct'); }
+      else { itemEl.querySelectorAll('.radio-option')[item.correctIndex].classList.add('correct'); }
+      total++; if(ok) correct++; itemEl.classList.add(ok?'correct':'incorrect');
+    } else if(item.type==='textarea'){
+      const model = item.reponse || '(réponse libre)';
+      let rep = itemEl.querySelector('.reponse-item');
+      if(!rep){ rep=document.createElement('div'); rep.className='reponse-item'; itemEl.appendChild(rep); }
+      rep.innerHTML = '<strong>Modèle :</strong> ' + escapeHtml(model);
+      itemEl.classList.add('correct'); total++; correct++;
+    }
+  });
+  st.checked=true; st.done=true; st.score={correct,total}; saveState();
+  const fb = document.getElementById('fb-'+id);
+  fb.className='feedback show '+(correct===total?'ok':(correct>=total/2?'info':'ko'));
+  fb.textContent='⭐ Résultat : '+correct+' / '+total+' ('+Math.round(100*correct/total)+'%) — '+(correct===total?'🎉 Bravo !':(correct>=total/2?'💪 Continue !':'📖 Revois l\'explication.'));
+  const exp = document.getElementById('exp-'+id); if(exp) exp.classList.add('show');
+  const header = card.querySelector('.exercice-header'); const oldNote = header.querySelector('.badge.note'); if(oldNote) oldNote.remove();
+  const newNote = document.createElement('span'); newNote.className='badge note'; newNote.textContent='⭐ '+correct+'/'+total;
+  header.querySelector('div').appendChild(newNote);
+  updateProgress();
+  updateBadges();
+}
+function resetExercice(id){
+  if(!confirm('Effacer les réponses et la note de cet exercice ?')) return;
+  const st = getExState(id);
+  st.values={}; st.done=false; st.checked=false; st.score=null; saveState();
+  const card = document.getElementById('ex-'+id); if(!card) return;
+  card.querySelectorAll('input[type="text"], textarea').forEach(inp => { inp.value=''; inp.classList.remove('correct','incorrect'); });
+  card.querySelectorAll('input[type="radio"]').forEach(r => r.checked=false);
+  card.querySelectorAll('.radio-option, .item').forEach(l => l.classList.remove('correct','incorrect'));
+  card.querySelectorAll('.feedback').forEach(f => f.classList.remove('show','ok','ko','info'));
+  card.querySelectorAll('.explication').forEach(e => e.classList.remove('show'));
+  card.querySelectorAll('.reponse-item').forEach(e => e.remove());
+  card.querySelectorAll('.badge.note').forEach(b => b.remove());
+  updateProgress();
+  updateBadges();
+}
+function showCorrection(id){
+  const code = prompt('🔒 Code enseignant pour afficher la correction :');
+  if(code === null) return;
+  if(code.trim() !== CODE_CORRECTION){ alert('Code incorrect.'); return; }
+  const ex = findExercice(id); if(!ex) return;
+  const card = document.getElementById('ex-'+id); if(!card) return;
+  ex.items.forEach((item, idx) => {
+    const itemEl = card.querySelector('.item[data-idx="'+idx+'"]'); if(!itemEl) return;
+    const key = 'i' + idx;
+    if(item.type==='fields'){
+      item.fields.forEach((f, fi) => {
+        const inp = itemEl.querySelector('input[data-key="'+key+'-'+fi+'"]'); if(!inp) return;
+        inp.classList.remove('correct','incorrect'); inp.classList.add('correct');
+        if(!inp.value){ inp.value=f.answers[0]; const st=getExState(id); if(!st.values) st.values={}; st.values[key+'-'+fi]=f.answers[0]; }
+      });
+    } else if(item.type==='text'){
+      const inp = itemEl.querySelector('input[data-key="'+key+'"]'); if(!inp) return;
+      inp.classList.remove('correct','incorrect'); inp.classList.add('correct');
+      if(!inp.value){ inp.value=item.answers[0]; const st=getExState(id); if(!st.values) st.values={}; st.values[key]=item.answers[0]; }
+    } else if(item.type==='radio'){
+      itemEl.querySelectorAll('.radio-option').forEach((l, oi) => {
+        l.classList.remove('correct','incorrect');
+        const r = l.querySelector('input[type="radio"]');
+        if(oi === item.correctIndex){ l.classList.add('correct'); if(r){ r.checked=true; const st=getExState(id); if(!st.values) st.values={}; st.values[key]=String(oi); } }
+      });
+    } else if(item.type==='textarea'){
+      const model = item.reponse || '';
+      let rep = itemEl.querySelector('.reponse-item');
+      if(!rep){ rep=document.createElement('div'); rep.className='reponse-item'; itemEl.appendChild(rep); }
+      rep.innerHTML = '<strong>Modèle :</strong> ' + escapeHtml(model);
+    }
+  });
+  saveState();
+  const exp = document.getElementById('exp-'+id); if(exp) exp.classList.add('show');
+  const fb = document.getElementById('fb-'+id); fb.className='feedback show info';
+  fb.textContent='🔓 Correction affichée. Clique sur « Vérifier » pour enregistrer la note.';
+}
+
+function isDayComplete(num){
+  const j = findJourByNum(num); if(!j) return false;
+  return j.exercices.every(ex => getExState(ex.id).done);
+}
+function getCurrentStreak(){
+  let n = 0;
+  for(let i = 1; i <= 10; i++){ if(isDayComplete(i)) n = i; else break; }
+  return n;
+}
+function updateBadges(){
+  const streak = getCurrentStreak();
+  const newBadges = [];
+  for(let i = 1; i <= streak; i++){
+    if(!state.rewards.badges.includes(i)){
+      state.rewards.badges.push(i);
+      if(!state.rewards.celebratedBadges.includes(i)){ newBadges.push(i); state.rewards.celebratedBadges.push(i); }
+    }
+  }
+  if(streak > state.rewards.bestStreak) state.rewards.bestStreak = streak;
+  const trophyJustWon = (streak >= 10 && !state.rewards.trophyWon);
+  if(streak >= 10) state.rewards.trophyWon = true;
+  saveState();
+  renderRewardsBar();
+  if(newBadges.length > 0){ newBadges.forEach((b, i) => setTimeout(() => showBadgeToast(b), i * 600)); }
+  if(trophyJustWon){ setTimeout(() => showTrophyCelebration(), newBadges.length * 600 + 800); }
+}
+function renderRewardsBar(){
+  const streak = getCurrentStreak();
+  document.getElementById('streakNumber').textContent = streak;
+  document.getElementById('bestStreak').textContent = state.rewards.bestStreak || 0;
+  const row = document.getElementById('badgesRow');
+  row.innerHTML = '';
+  BADGES.forEach((b, i) => {
+    const num = i + 1;
+    const earned = state.rewards.badges.includes(num);
+    const el = document.createElement('div');
+    el.className = 'badge-slot' + (earned ? ' earned' : '');
+    el.textContent = b.emoji;
+    el.dataset.label = b.name + ' – ' + b.desc;
+    el.title = b.name + ' – ' + b.desc;
+    row.appendChild(el);
+  });
+  const trophy = document.getElementById('trophyDisplay');
+  trophy.classList.toggle('won', state.rewards.trophyWon);
+}
+function showBadgeToast(num){
+  const b = BADGES[num - 1];
+  const toast = document.createElement('div');
+  toast.className = 'badge-toast';
+  toast.innerHTML = `<div class="toast-emoji">${b.emoji}</div><div><div class="toast-title">🏅 Badge débloqué !</div><div class="toast-name">${escapeHtml(b.name)}</div><div class="toast-desc">${escapeHtml(b.desc)}</div></div>`;
+  document.body.appendChild(toast);
+  burstConfetti(50);
+  setTimeout(() => { toast.classList.add('out'); setTimeout(() => toast.remove(), 400); }, 4500);
+}
+function showTrophyCelebration(){
+  const modal = document.createElement('div');
+  modal.className = 'trophy-modal';
+  modal.innerHTML = `<div class="trophy-content"><div class="trophy-emoji">🏆</div><h2>FÉLICITATIONS !</h2><h3>Trophée de la Période 1</h3><p>Tu as terminé les 10 jours de révision !</p><div class="trophy-stars">⭐ ⭐ ⭐ ⭐ ⭐</div><button onclick="this.closest('.trophy-modal').remove()">Bravo !</button></div>`;
+  document.body.appendChild(modal);
+  burstConfetti(150);
+  setTimeout(() => burstConfetti(100), 1500);
+}
+function showDayUnlockedToast(num){
+  const j = findJourByNum(num); if(!j) return;
+  const toast = document.createElement('div');
+  toast.className = 'badge-toast';
+  toast.innerHTML = `<div class="toast-emoji">🎉</div><div><div class="toast-title">Nouveau jour débloqué !</div><div class="toast-name">Jour ${num} : ${escapeHtml(j.titre)}</div><div class="toast-desc">Tu peux maintenant commencer ce jour.</div></div>`;
+  document.body.appendChild(toast);
+  burstConfetti(30);
+  setTimeout(() => { toast.classList.add('out'); setTimeout(() => toast.remove(), 400); }, 5000);
+}
+function burstConfetti(count){
+  const colors = ['#ffd700','#ff6b35','#4a7cff','#2ecc71','#9b59b6','#e74c3c','#f39c12'];
+  for(let i = 0; i < count; i++){
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      const size = 6 + Math.random() * 8;
+      c.style.width = size + 'px';
+      c.style.height = size + 'px';
+      c.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+      c.style.animationDelay = Math.random() * 0.5 + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 5000);
+    }, i * 25);
+  }
+}
+
+function renderFicheSuivi(){
+  const panel = document.createElement('div');
+  panel.className = 'jour-panel'; panel.id = 'panel-suivi';
+  panel.innerHTML = '<div class="jour-header"><h2>📋 Fiche de suivi</h2><div class="meta"><span>Récapitulatif, moyenne et compétences</span></div></div>' +
+    '<div class="bilan-box"><h3>🏆 Trophées</h3><div id="trophees-display"></div></div>' +
+    '<div class="bilan-box"><h3>🎯 Moyenne générale</h3><div class="moyenne-display" id="moyenne-display">—</div><div class="moyenne-detail" id="moyenne-detail">Aucun exercice vérifié.</div></div>' +
+    '<div class="bilan-box"><h3>🕸 Étoile de compétences</h3><div id="radar-container"></div></div>' +
+    '<div class="bilan-box"><h3>📊 Récapitulatif par jour</h3><div id="tableau-jour"></div></div>' +
+    '<details><summary>🔍 Détail par exercice</summary><div id="tableau-exercice"></div></details>' +
+    '<div class="bilan-box"><h3>📝 Bilan de fin de parcours</h3>' +
+    '<label>Ce que je maîtrise bien en français :</label><textarea id="bilan-fr"></textarea>' +
+    '<label>Ce qui reste fragile en français :</label><textarea id="bilan-fr-faible"></textarea>' +
+    '<label>Ce qui reste fragile en maths :</label><textarea id="bilan-ma-faible"></textarea>' +
+    '<label>Ce qui reste fragile en anglais :</label><textarea id="bilan-an-faible"></textarea>' +
+    '<label>Mes priorités pour la rentrée :</label><textarea id="bilan-priorites"></textarea></div>';
+  setTimeout(() => {
+    ['bilan-fr','bilan-fr-faible','bilan-ma-faible','bilan-an-faible','bilan-priorites'].forEach(id => {
+      const el = document.getElementById(id); if(!el) return;
+      if(state['bilan-'+id]) el.value = state['bilan-'+id];
+      el.addEventListener('input', () => { state['bilan-'+id] = el.value; saveState(); });
+    });
+    updateSuivi();
+  }, 0);
+  return panel;
+}
+function updateSuivi(){
+  const divT = document.getElementById('trophees-display');
+  if(divT){
+    const badges = state.rewards.badges.length;
+    const trophy = state.rewards.trophyWon;
+    const best = state.rewards.bestStreak || 0;
+    divT.innerHTML = '<p style="font-size:1.05rem;margin:5px 0"><strong>🏅 Badges gagnés : ' + badges + ' / 10</strong></p>' +
+      '<p style="font-size:1.05rem;margin:5px 0"><strong>🔥 Meilleure série : ' + best + ' jours</strong></p>' +
+      '<p style="font-size:1.3rem;margin:12px 0;' + (trophy?'color:#d4af37;font-weight:800':'color:#999') + '">' + (trophy?'🏆 Trophée débloqué !':'🔒 Trophée (10/10 jours)') + '</p>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;justify-content:center">' +
+      BADGES.map((b, i) => '<span title="' + escapeHtml(b.name) + '" style="font-size:1.6rem;' + (state.rewards.badges.includes(i+1)?'':'filter:grayscale(1);opacity:.3') + '">' + b.emoji + '</span>').join('') + '</div>';
+  }
+  const divJ = document.getElementById('tableau-jour');
+  const divE = document.getElementById('tableau-exercice');
+  if(!divJ || !divE) return;
+  let html = '<table class="suivi-table"><thead><tr><th>Jour</th><th>Thème</th><th>Badge</th><th>FR</th><th>MA</th><th>AN</th><th>Note</th></tr></thead><tbody>';
+  let totalCorrect = 0, totalAttempted = 0;
+  DATA.forEach(j => {
+    const fr = j.exercices.filter(e=>e.matiere==='francais');
+    const ma = j.exercices.filter(e=>e.matiere==='maths');
+    const an = j.exercices.filter(e=>e.matiere==='anglais');
+    const doneFr = fr.length ? fr.every(e=>getExState(e.id).done) : true;
+    const doneMa = ma.length ? ma.every(e=>getExState(e.id).done) : true;
+    const doneAn = an.length ? an.every(e=>getExState(e.id).done) : true;
+    const earned = state.rewards.badges.includes(j.num);
+    const locked = !isDayUnlocked(j.num);
+    let dayCorrect=0, dayTotal=0;
+    j.exercices.forEach(ex => { const s=getExState(ex.id).score; if(s){ dayCorrect+=s.correct; dayTotal+=s.total; } });
+    totalCorrect+=dayCorrect; totalAttempted+=dayTotal;
+    const noteStr = dayTotal ? dayCorrect+'/'+dayTotal+' ('+Math.round(100*dayCorrect/dayTotal)+'%)' : '—';
+    html += '<tr><td class="jour">J'+j.num+'</td><td>'+escapeHtml(j.titre)+'</td>' +
+      '<td>'+(earned?BADGES[j.num-1].emoji:(locked?'🔒':'⬜'))+'</td>' +
+      '<td>'+(fr.length?(doneFr?'✅':'⬜'):'—')+'</td>' +
+      '<td>'+(ma.length?(doneMa?'✅':'⬜'):'—')+'</td>' +
+      '<td>'+(an.length?(doneAn?'✅':'⬜'):'—')+'</td>' +
+      '<td class="note">'+noteStr+'</td></tr>';
+  });
+  const moy = totalAttempted ? Math.round(100*totalCorrect/totalAttempted) : 0;
+  html += '</tbody><tfoot><tr><td colspan="6">Moyenne générale</td><td class="note">'+totalCorrect+'/'+totalAttempted+' ('+moy+'%)</td></tr></tfoot></table>';
+  divJ.innerHTML = html;
+  const md = document.getElementById('moyenne-display');
+  const mdet = document.getElementById('moyenne-detail');
+  if(md){
+    if(totalAttempted > 0){
+      md.textContent = moy + '%';
+      md.style.color = moy >= 75 ? '#27ae60' : moy >= 50 ? '#e67e22' : '#e74c3c';
+      mdet.textContent = totalCorrect + ' / ' + totalAttempted + ' points';
+    } else { md.textContent='—'; md.style.color='#7f8c8d'; mdet.textContent='Aucun exercice vérifié.'; }
+  }
+  let htmlE = '<table class="suivi-table"><thead><tr><th>Exercice</th><th>Matière</th><th>Compétence</th><th>Note</th></tr></thead><tbody>';
+  DATA.forEach(j => {
+    j.exercices.forEach(ex => {
+      const s = getExState(ex.id).score;
+      const comp = COMPETENCE_LABELS[COMPETENCES_MAP[ex.id]] || '—';
+      const noteStr = s ? s.correct+'/'+s.total+' ('+Math.round(100*s.correct/s.total)+'%)' : '—';
+      htmlE += '<tr><td class="jour" style="text-align:left;font-size:.8rem">J'+j.num+' · '+escapeHtml(ex.titre)+'</td>' +
+        '<td style="font-size:.75rem">'+(ex.matiere==='francais'?'FR':(ex.matiere==='maths'?'MA':'AN'))+'</td>' +
+        '<td style="font-size:.75rem">'+comp+'</td>' +
+        '<td class="note">'+noteStr+'</td></tr>';
+    });
+  });
+  htmlE += '</tbody></table>';
+  divE.innerHTML = htmlE;
+  updateRadar();
+}
+function updateRadar(){
+  const container = document.getElementById('radar-container'); if(!container) return;
+  const competences = {};
+  Object.keys(COMPETENCES_MAP).forEach(exId => {
+    const key = COMPETENCES_MAP[exId]; const st = getExState(exId);
+    if(!st.score) return;
+    if(!competences[key]) competences[key] = { label: COMPETENCE_LABELS[key], correct: 0, total: 0 };
+    competences[key].correct += st.score.correct;
+    competences[key].total += st.score.total;
+  });
+  const items = Object.values(competences);
+  if(items.length < 3){ container.innerHTML = '<div class="radar-empty">📊 L\'étoile apparaîtra dès que tu auras vérifié au moins 3 compétences différentes.</div>'; return; }
+  const size = 420, cx = size/2, cy = size/2, R = 150, n = items.length, step = (2 * Math.PI) / n;
+  let svg = '<svg viewBox="0 0 '+size+' '+size+'" style="width:100%;max-width:460px;display:block;margin:0 auto">';
+  [0.25, 0.5, 0.75, 1].forEach(ratio => {
+    const pts = items.map((_, i) => { const a = -Math.PI/2 + i*step; return (cx+R*ratio*Math.cos(a))+','+(cy+R*ratio*Math.sin(a)); }).join(' ');
+    svg += '<polygon points="'+pts+'" fill="none" stroke="#e0e6ef" stroke-width="1"/>';
+  });
+  items.forEach((_, i) => {
+    const a = -Math.PI/2 + i*step;
+    svg += '<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+R*Math.cos(a))+'" y2="'+(cy+R*Math.sin(a))+'" stroke="#e0e6ef" stroke-width="1"/>';
+  });
+  const dataPts = items.map((it, i) => {
+    const a = -Math.PI/2 + i*step;
+    const pct = it.total ? it.correct/it.total : 0;
+    return { x: cx + R*pct*Math.cos(a), y: cy + R*pct*Math.sin(a), pct, it, a };
+  });
+  svg += '<polygon points="'+dataPts.map(p=>p.x+','+p.y).join(' ')+'" fill="rgba(74,124,255,0.3)" stroke="#4a7cff" stroke-width="2"/>';
+  dataPts.forEach(p => {
+    const color = p.pct >= 0.75 ? '#27ae60' : p.pct >= 0.5 ? '#e67e22' : '#e74c3c';
+    svg += '<circle cx="'+p.x+'" cy="'+p.y+'" r="5" fill="'+color+'"><title>'+escapeHtml(p.it.label)+' : '+Math.round(100*p.pct)+'% ('+p.it.correct+'/'+p.it.total+')</title></circle>';
+  });
+  dataPts.forEach(p => {
+    const labelR = R + 30;
+    const lx = cx + labelR * Math.cos(p.a), ly = cy + labelR * Math.sin(p.a);
+    let anchor = 'middle'; if(Math.cos(p.a) > 0.3) anchor='start'; else if(Math.cos(p.a) < -0.3) anchor='end';
+    let baseline = 'middle'; if(Math.sin(p.a) > 0.7) baseline='hanging'; else if(Math.sin(p.a) < -0.7) baseline='auto';
+    svg += '<text x="'+lx+'" y="'+ly+'" font-size="11" font-weight="700" fill="#2c3e50" text-anchor="'+anchor+'" dominant-baseline="'+baseline+'">'+escapeHtml(p.it.label)+'</text>';
+    svg += '<text x="'+lx+'" y="'+(ly+13)+'" font-size="10" fill="#7f8c8d" text-anchor="'+anchor+'" dominant-baseline="'+baseline+'">'+Math.round(100*p.pct)+'%</text>';
+  });
+  svg += '</svg>';
+  container.innerHTML = svg;
+}
+
+function updateProgress(){
+  let total=0, done=0;
+  DATA.forEach(j => j.exercices.forEach(ex => { total++; if(getExState(ex.id).done) done++; }));
+  const pct = total ? Math.round(100*done/total) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = done + ' exercice' + (done>1?'s':'') + ' validé' + (done>1?'s':'') + ' sur ' + total + ' (' + pct + ' %)';
+  DATA.forEach(j => {
+    const allDone = isDayUnlocked(j.num) && j.exercices.every(e => getExState(e.id).done);
+    const btn = document.querySelector('.day-btn[data-num="'+j.num+'"]');
+    if(btn) btn.classList.toggle('done', allDone);
+  });
+  updateSuivi();
+}
+
+function resetAll(){
+  if(!confirm('⚠️ Effacer TOUTES les réponses, notes, badges, séries, ton prénom et ta date de démarrage ?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state = {};
+  location.reload();
+}
+
+let lastElapsed = null;
+function checkNewDay(){
+  if(!isOnboarded()) return;
+  const current = getElapsedDays();
+  if(lastElapsed === null){ lastElapsed = current; return; }
+  if(current !== lastElapsed){
+    lastElapsed = current;
+    updateHeader();
+    render();
+    if(current >= 1 && current <= 9){ showDayUnlockedToast(current + 1); }
+  }
+}
+
+function init(){
+  if(isOnboarded()){
+    document.getElementById('onboardingOverlay').classList.add('hidden');
+  } else {
+    document.getElementById('onboardingOverlay').classList.remove('hidden');
+    setTimeout(() => { const inp = document.getElementById('firstNameInput'); if(inp) inp.focus(); }, 300);
+  }
+  const input = document.getElementById('firstNameInput');
+  if(input){ input.addEventListener('keydown', (e) => { if(e.key === 'Enter') startAdventure(); }); }
+  updateHeader();
+  render();
+  lastElapsed = getElapsedDays();
+  setInterval(checkNewDay, 60000);
+}
+init();
+</script>
+</body>
+</html>
