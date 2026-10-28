@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cm2-revisions-v1';
+const CACHE_NAME = 'cm2-revisions-v2';
 const ASSETS = [
   './',
   './index.html',
